@@ -89,6 +89,8 @@ namespace Grid
                     grid.Add(new Cell(new Point(x, y), cellSize));
                 }
             }
+
+            CreateLevel();//creates the level
         }
 
         /// <summary>
@@ -108,6 +110,135 @@ namespace Grid
         }
 
 
+        /// <summary>
+        /// Creates the map, tile by tile
+        /// (Hard-coded because dynamic / flexible map creation is not the point of this project)
+        /// </summary>
+        public void CreateLevel()
+        {
+            //Hard coded mess that not even the all-knowing Cthulhu would comprehend
+            //You have been warned
+            MakeRoads();
+            MakeTrees();
+            MakeWater();
+        }
+
+        private void MakeRoads()
+        {
+            #region ABOMINATION INSIDE! MAKE SURE YOU'RE WEARING A HAZMAT SUITE BEFORE OPENING!
+            for (int x = 1; x <= 8; x += 7)
+            {
+                for (int y = 5; y < 9; y++)
+                {
+                    foreach (Cell cell in grid)
+                    {
+                        if (cell.position == new Point(x, y))
+                        {
+                            cell.MyType = CellType.ROAD;
+
+                            cell.AssignSprite();
+                        }
+                    }
+                }
+            }
+            for (int x = 3; x <= 7; x += 4)
+            {
+                for (int y = 0; y < 6; y++)
+                {
+                    foreach (Cell cell in grid)
+                    {
+                        if (cell.position == new Point(x, y))
+                        {
+                            cell.MyType = CellType.ROAD;
+
+                            cell.AssignSprite();
+                        }
+                    }
+                }
+            }
+            for (int x = 4; x <= 6; x++)
+            {
+                int y = 0;
+                foreach (Cell cell in grid)
+                {
+                    if (cell.position == new Point(x, y))
+                    {
+                        cell.MyType = CellType.ROAD;
+
+                        cell.AssignSprite();
+                    }
+                }
+            }
+            for (int x = 2; x <= 7; x++)
+            {
+                int y = 8;
+                foreach (Cell cell in grid)
+                {
+                    if (cell.position == new Point(x, y))
+                    {
+                        cell.MyType = CellType.ROAD;
+
+                        cell.AssignSprite();
+                    }
+                }
+            }
+
+            foreach (Cell cell in grid)
+            {
+                if (cell.position == new Point(2, 5))
+                {
+                    cell.MyType = CellType.ROAD;
+                    cell.AssignSprite();
+
+                }
+            }
+            #endregion;
+        }
+
+        private void MakeTrees()
+        {
+            for (int y = 7; y <= 9; y += 2)
+            {
+                for (int x = 2; x <= 6; x++)
+                {
+                    foreach (Cell cell in grid)
+                    {
+                        if (cell.position == new Point(x, y))
+                        {
+                            cell.MyType = CellType.TREE;
+
+                            cell.AssignSprite();
+                        }
+                    }
+                }
+            }
+
+        }
+        private void MakeWater()
+        {
+            for (int x = 4; x < 7; x++)
+            {
+
+                for (int y = 1; y < 7; y++)
+                {
+
+                    foreach (Cell cell in grid)
+                    {
+                        if (cell.position == new Point(x, y))
+                        {
+                            cell.MyType = CellType.WATER;
+
+                            cell.AssignSprite();
+                        }
+                    }
+                }
+            }
+
+        }
+
 
     }
+
+
 }
+

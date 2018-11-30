@@ -8,7 +8,7 @@ using static Grid.CellType;
 
 namespace Grid
 {
-    public enum CellType { START, GOAL, WALL, EMPTY, KEY, TOWER, CRYSTAL, PORTAL };
+    public enum CellType { START, GOAL, WALL, EMPTY, KEY, TOWER, CRYSTAL, PORTAL, ROAD, TREE, WATER };
 
     public class Cell
     {
@@ -30,7 +30,7 @@ namespace Grid
         /// <summary>
         /// the type of cell
         /// </summary>
-        public CellType MyType { get; private set; } = EMPTY;
+        public CellType MyType { get; set; } = EMPTY;
 
         public Cell Parrent { get; set; }//stores the parrent cell
         public int HValue { get; set; }//stores the Hvalues of cell
@@ -61,6 +61,128 @@ namespace Grid
             //Sets the cell size
             this.cellSize = size;
 
+            AssignSprite();
+
+        }
+
+        /// <summary>
+        /// Constructor for cell, that takes cell type too
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="size"></param>
+        /// <param name="type"></param>
+        public Cell(Point position, int size, CellType type)
+        {
+            //Sets the position
+            this.position = position;
+
+            //Sets the cell size
+            this.cellSize = size;
+
+            //type of sell
+            this.MyType = type;
+
+            AssignSprite();
+        }
+
+        public void AssignSprite()
+        {
+            switch (MyType)
+            {
+                case CellType.WATER:
+                    FindCorrectWaterSprite();
+                    break;
+                case CellType.ROAD:
+                    sprite = Image.FromFile(@"Images\Road.png");
+                    break;
+                case CellType.WALL:
+                    sprite = Image.FromFile(@"Images\Road.png");
+
+                    break;
+                case CellType.TREE:
+                    sprite = Image.FromFile(@"Images\Tree.png");
+                    break;
+                case CellType.EMPTY:
+                    sprite = Image.FromFile(@"Images\Grass.png");
+                    break;
+                case CellType.KEY:
+                    sprite = Image.FromFile(@"Images\Start.png");
+
+                    break;
+                case CellType.TOWER:
+                    sprite = Image.FromFile(@"Images\Crystal.png");
+
+                    break;
+                case CellType.CRYSTAL:
+                    sprite = Image.FromFile(@"Images\Crystal.png");
+
+                    break;
+                case CellType.PORTAL:
+                    sprite = Image.FromFile(@"Images\Start.png");
+
+                    break;
+
+                
+                default:
+                    sprite = Image.FromFile(@"Images\Start.png");
+
+                    break;
+            }
+        }
+
+        private void FindCorrectWaterSprite()
+        {
+
+            if (position.X == 5 &&( position.Y>1 || position.Y < 7))
+            {
+                sprite = Image.FromFile(@"Images\Water.png");
+            }
+             if (position.X == 5 && (position.Y == 1))
+            {
+                sprite = Image.FromFile(@"Images\WaterEdge.png");
+                sprite.RotateFlip(RotateFlipType.Rotate180FlipNone);
+
+            }
+            if (position.X == 5 && (position.Y == 6))
+            {
+                sprite = Image.FromFile(@"Images\WaterEdge.png");
+
+            }
+            if (position.X == 4 && (position.Y > 1 && position.Y<6))
+            {
+                sprite = Image.FromFile(@"Images\WaterEdge.png");
+                sprite.RotateFlip(RotateFlipType.Rotate90FlipNone);
+
+            }
+            if (position.X == 6 && (position.Y > 1 && position.Y < 6))
+            {
+                sprite = Image.FromFile(@"Images\WaterEdge.png");
+                sprite.RotateFlip(RotateFlipType.Rotate270FlipNone);
+
+            }
+            if (position.X == 4 && position.Y == 1)
+            {
+                sprite = Image.FromFile(@"Images\WaterCorner.png");
+                sprite.RotateFlip(RotateFlipType.Rotate90FlipNone);
+
+
+            }
+            if (position.X == 6 && position.Y == 1)
+            {
+                sprite = Image.FromFile(@"Images\WaterCorner.png");
+                sprite.RotateFlip(RotateFlipType.Rotate180FlipNone);
+
+
+            }
+            if (position.X == 6 && position.Y == 6)
+            {
+                sprite = Image.FromFile(@"Images\WaterCorner.png");
+                sprite.RotateFlip(RotateFlipType.Rotate270FlipNone);
+            }
+            if (position.X == 4 && position.Y == 6)
+            {
+                sprite = Image.FromFile(@"Images\WaterCorner.png");
+            }
         }
 
         /// <summary>
@@ -113,6 +235,8 @@ namespace Grid
             }
 #endif
         }
+
+
 
         /// <summary>
         /// Clicks the cell

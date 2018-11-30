@@ -126,3 +126,12 @@ D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\obj\Debug\Grid.csproj.
 D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\obj\Debug\Grid.csproj.CoreCompileInputs.cache
 D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\obj\Debug\Grid.exe
 D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\obj\Debug\Grid.pdb
+D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\bin\Debug\Images\Crystal.png
+D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\bin\Debug\Images\Grass.png
+D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\bin\Debug\Images\Key.png
+D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\bin\Debug\Images\Road.png
+D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\bin\Debug\Images\water.png
+D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\bin\Debug\Images\WaterCorner.png
+D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\bin\Debug\Images\WaterEdge.png
+D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\bin\Debug\Images\Wizard.png
+D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\bin\Debug\Images\Tree.png
