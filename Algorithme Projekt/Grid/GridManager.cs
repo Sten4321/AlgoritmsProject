@@ -37,6 +37,8 @@ namespace Grid
         public static List<Cell> pathToEnd = new List<Cell>();
 
 
+        private Wizard player;
+
         public GridManager(Graphics dc, Rectangle displayRectangle)
         {
             //Create's (Allocates) a buffer in memory with the size of the display
@@ -66,6 +68,11 @@ namespace Grid
                 cell.Render(dc);
             }
 
+            if (player != null)
+            {
+                player.Draw(dc);
+            }
+
             //Renders the content of the buffered graphics context to the real context(Swap buffers)
             backBuffer.Render();
         }
@@ -90,7 +97,7 @@ namespace Grid
                 }
             }
 
-            CreateLevel();//creates the level
+            CreateLevel(cellSize);//creates the level
         }
 
         /// <summary>
@@ -114,7 +121,7 @@ namespace Grid
         /// Creates the map, tile by tile
         /// (Hard-coded because dynamic / flexible map creation is not the point of this project)
         /// </summary>
-        public void CreateLevel()
+        public void CreateLevel(int cellSize)
         {
             //Hard coded mess that not even the all-knowing Cthulhu would comprehend
             //You have been warned
@@ -126,6 +133,8 @@ namespace Grid
             MakeCrystal();
 
             MakePortal();
+
+            player = new Wizard(new Point(1, 8), cellSize);
         }
 
         private void MakePortal()
@@ -166,7 +175,7 @@ namespace Grid
 
         private void MakeRoads()
         {
-            #region ABOMINATION INSIDE! MAKE SURE YOU'RE WEARING A HAZMAT SUITE BEFORE OPENING!
+            #region ABOMINATION INSIDE! MAKE SURE YOU'RE WEARING A HAZMAT SUITE BEFORE ENTERING!
             for (int x = 1; x <= 8; x += 7)
             {
                 for (int y = 5; y < 9; y++)

@@ -65,25 +65,7 @@ namespace Grid
 
         }
 
-        /// <summary>
-        /// Constructor for cell, that takes cell type too
-        /// </summary>
-        /// <param name="position"></param>
-        /// <param name="size"></param>
-        /// <param name="type"></param>
-        public Cell(Point position, int size, CellType type)
-        {
-            //Sets the position
-            this.position = position;
 
-            //Sets the cell size
-            this.cellSize = size;
-
-            //type of sell
-            this.MyType = type;
-
-            AssignSprite();
-        }
 
         public void AssignSprite()
         {
@@ -122,7 +104,7 @@ namespace Grid
 
                     break;
 
-                
+
                 default:
                     sprite = Image.FromFile(@"Images\Start.png");
 
@@ -130,14 +112,18 @@ namespace Grid
             }
         }
 
+        /// <summary>
+        /// Assigns the correct waterSprites to cells of the type Water
+        /// </summary>
         private void FindCorrectWaterSprite()
         {
+            // If my mother knew i coded this, she'd disown me
 
-            if (position.X == 5 &&( position.Y>1 || position.Y < 7))
+            if (position.X == 5 && (position.Y > 1 || position.Y < 7))
             {
                 sprite = Image.FromFile(@"Images\Water.png");
             }
-             if (position.X == 5 && (position.Y == 1))
+            if (position.X == 5 && (position.Y == 1))
             {
                 sprite = Image.FromFile(@"Images\WaterEdge.png");
                 sprite.RotateFlip(RotateFlipType.Rotate180FlipNone);
@@ -148,7 +134,7 @@ namespace Grid
                 sprite = Image.FromFile(@"Images\WaterEdge.png");
 
             }
-            if (position.X == 4 && (position.Y > 1 && position.Y<6))
+            if (position.X == 4 && (position.Y > 1 && position.Y < 6))
             {
                 sprite = Image.FromFile(@"Images\WaterEdge.png");
                 sprite.RotateFlip(RotateFlipType.Rotate90FlipNone);

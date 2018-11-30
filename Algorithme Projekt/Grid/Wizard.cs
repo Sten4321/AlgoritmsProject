@@ -9,31 +9,55 @@ namespace Grid
 {
     class Wizard
     {
+
+
+        public Point position { get; set; }
+
+        private Image sprite;
+
+        private int spriteSize;
+
+        public Rectangle BoundingRectangle
+        {
+            get
+            {
+                return new Rectangle(position.X * spriteSize, position.Y * spriteSize, spriteSize, spriteSize);
+            }
+        }
+
         public int keyCount = 0;
 
         public bool hasPotion = false;
 
         public bool canEnterPortal = false;
 
-        //Coordinate on Grid
-        public Point Coordinate { get; set; }
+     
 
         /// <summary>
         /// Wizard Constructor
         /// </summary>
         /// <param name="_coord">Starting coordinate</param>
-        public Wizard(Point _coord)
+        public Wizard(Point _coord, int spriteSize)
         {
-            Coordinate = _coord;
+            sprite = Image.FromFile(@"Images\Wizard.png");
+            position = _coord;
+            this.spriteSize = spriteSize;
         }
 
-        public void EvaluateNewCell(Cell cell)
+        public void Draw(Graphics dc)
+        {
+            if (sprite != null)
+            {
+                dc.DrawImage(sprite, BoundingRectangle);
+            }
+        }
+
+        public void InteractWithCell(Cell cell)
         {
             switch (cell.MyType)
             {
-
                 case CellType.KEY:
-                    keyCount++;
+                    CollectKey(cell);
                     break;
                 case CellType.TOWER:
                     if (keyCount == 2)
@@ -56,6 +80,24 @@ namespace Grid
                     break;
                 default:
                     break;
+            }
+        }
+
+        /// <summary>
+        /// Collects the key, and makes the key tile empty
+        /// </summary>
+        /// <param name="cell"></param>
+        private void CollectKey(Cell cell)
+        {
+            keyCount++;
+
+            foreach (Cell tmp in GridManager.grid)
+            {
+                if (tmp.position == cell.position)
+                {
+                    tmp.MyType = CellType.EMPTY;
+                    tmp.AssignSprite();
+                }
             }
         }
     }

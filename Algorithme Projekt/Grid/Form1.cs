@@ -14,6 +14,7 @@ namespace Grid
     {
         private GridManager visualManager;
 
+
         float timeStamp = 0;
 
         Cell previousCell;
@@ -34,6 +35,7 @@ namespace Grid
             //Draws all our cells
             visualManager.Render();
 
+           
         }
 
 
