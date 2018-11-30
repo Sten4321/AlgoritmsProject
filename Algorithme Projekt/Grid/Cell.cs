@@ -8,7 +8,7 @@ using static Grid.CellType;
 
 namespace Grid
 {
-    public enum CellType { START, GOAL, WALL, EMPTY };
+    public enum CellType { START, GOAL, WALL, EMPTY, KEY, TOWER, CRYSTAL, PORTAL };
 
     public class Cell
     {
