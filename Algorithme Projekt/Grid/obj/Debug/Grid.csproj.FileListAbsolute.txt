@@ -113,3 +113,16 @@ C:\Users\Andr4\Desktop\AlgoritmsProject\Algorithme Projekt\Grid\obj\Debug\Grid.c
 C:\Users\Andr4\Desktop\AlgoritmsProject\Algorithme Projekt\Grid\obj\Debug\Grid.csproj.CoreCompileInputs.cache
 C:\Users\Andr4\Desktop\AlgoritmsProject\Algorithme Projekt\Grid\obj\Debug\Grid.exe
 C:\Users\Andr4\Desktop\AlgoritmsProject\Algorithme Projekt\Grid\obj\Debug\Grid.pdb
+D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\bin\Debug\Images\Wall.png
+D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\bin\Debug\Images\Goal.png
+D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\bin\Debug\Images\Start.png
+D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\bin\Debug\Grid.exe.config
+D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\bin\Debug\Grid.exe
+D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\bin\Debug\Grid.pdb
+D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\obj\Debug\Grid.csprojAssemblyReference.cache
+D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\obj\Debug\Grid.Form1.resources
+D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\obj\Debug\Grid.Properties.Resources.resources
+D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\obj\Debug\Grid.csproj.GenerateResource.cache
+D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\obj\Debug\Grid.csproj.CoreCompileInputs.cache
+D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\obj\Debug\Grid.exe
+D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\obj\Debug\Grid.pdb
