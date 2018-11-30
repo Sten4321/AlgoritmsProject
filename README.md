@@ -1,1 +1,1 @@
-AlgoritmsProject
+AlgorithmsProject
