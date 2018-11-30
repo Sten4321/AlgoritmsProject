@@ -35,7 +35,7 @@ namespace Grid
         public Cell Parrent { get; set; }//stores the parrent cell
         public int HValue { get; set; }//stores the Hvalues of cell
         public int GValue { get; set; }//stores the gValue of the field
-        public int FValue { get; set; }////stores the Fvalue of field
+        public int FValue { get { return GValue + HValue; } }////stores the Fvalue of field
 
         /// <summary>
         /// The bounding rectangle of the cell
@@ -103,9 +103,13 @@ namespace Grid
 #if DEBUG
             if (FValue != 0)
             {
-                dc.DrawString(string.Format("G: {0}", GValue), new Font("Arial", 6, FontStyle.Regular), new SolidBrush(Color.Black), position.X * cellSize, (position.Y * cellSize) + 9);
-                dc.DrawString(string.Format("H: {0}", HValue), new Font("Arial", 6, FontStyle.Regular), new SolidBrush(Color.Black), position.X * cellSize, (position.Y * cellSize) + 16);
-                dc.DrawString(string.Format("F: {0}", FValue), new Font("Arial", 6, FontStyle.Regular), new SolidBrush(Color.Black), position.X * cellSize, (position.Y * cellSize) + 23);
+                try
+                {
+                    dc.DrawString(string.Format("G: {0}", GValue), new Font("Arial", 6, FontStyle.Regular), new SolidBrush(Color.Black), position.X * cellSize, (position.Y * cellSize) + 9);
+                    dc.DrawString(string.Format("H: {0}", HValue), new Font("Arial", 6, FontStyle.Regular), new SolidBrush(Color.Black), position.X * cellSize, (position.Y * cellSize) + 16);
+                    dc.DrawString(string.Format("F: {0}", FValue), new Font("Arial", 6, FontStyle.Regular), new SolidBrush(Color.Black), position.X * cellSize, (position.Y * cellSize) + 23);
+                }
+                catch { }
             }
 #endif
         }
@@ -121,12 +125,14 @@ namespace Grid
                 sprite = Image.FromFile(@"Images\Start.png");
                 MyType = clickType;
                 clickType = GOAL;
+                GridManager.startCell = this;
             }
             else if (clickType == GOAL && MyType != START) //If the click type is GOAL
             {
                 sprite = Image.FromFile(@"Images\Goal.png");
                 clickType = WALL;
                 MyType = GOAL;
+                GridManager.goalCell = this;
             }
             else if (clickType == WALL && MyType != START && MyType != GOAL && MyType != WALL) //If the click type is WALL
             {

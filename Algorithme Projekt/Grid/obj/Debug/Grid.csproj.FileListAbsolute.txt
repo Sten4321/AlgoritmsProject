@@ -87,3 +87,16 @@ C:\Users\Andr4\Desktop\Projects\Algorithms\Projects\Astar Pathfinding\Grid\obj\D
 C:\Users\Andr4\Desktop\Projects\Algorithms\Projects\Astar Pathfinding\Grid\obj\Debug\Grid.csproj.CoreCompileInputs.cache
 C:\Users\Andr4\Desktop\Projects\Algorithms\Projects\Astar Pathfinding\Grid\obj\Debug\Grid.exe
 C:\Users\Andr4\Desktop\Projects\Algorithms\Projects\Astar Pathfinding\Grid\obj\Debug\Grid.pdb
+C:\Users\Stefan\source\repos\AlgoritmsProject\Algorithme Projekt\Grid\bin\Debug\Images\Wall.png
+C:\Users\Stefan\source\repos\AlgoritmsProject\Algorithme Projekt\Grid\bin\Debug\Images\Goal.png
+C:\Users\Stefan\source\repos\AlgoritmsProject\Algorithme Projekt\Grid\bin\Debug\Images\Start.png
+C:\Users\Stefan\source\repos\AlgoritmsProject\Algorithme Projekt\Grid\bin\Debug\Grid.exe.config
+C:\Users\Stefan\source\repos\AlgoritmsProject\Algorithme Projekt\Grid\bin\Debug\Grid.exe
+C:\Users\Stefan\source\repos\AlgoritmsProject\Algorithme Projekt\Grid\bin\Debug\Grid.pdb
+C:\Users\Stefan\source\repos\AlgoritmsProject\Algorithme Projekt\Grid\obj\Debug\Grid.csprojAssemblyReference.cache
+C:\Users\Stefan\source\repos\AlgoritmsProject\Algorithme Projekt\Grid\obj\Debug\Grid.Form1.resources
+C:\Users\Stefan\source\repos\AlgoritmsProject\Algorithme Projekt\Grid\obj\Debug\Grid.Properties.Resources.resources
+C:\Users\Stefan\source\repos\AlgoritmsProject\Algorithme Projekt\Grid\obj\Debug\Grid.csproj.GenerateResource.cache
+C:\Users\Stefan\source\repos\AlgoritmsProject\Algorithme Projekt\Grid\obj\Debug\Grid.csproj.CoreCompileInputs.cache
+C:\Users\Stefan\source\repos\AlgoritmsProject\Algorithme Projekt\Grid\obj\Debug\Grid.exe
+C:\Users\Stefan\source\repos\AlgoritmsProject\Algorithme Projekt\Grid\obj\Debug\Grid.pdb

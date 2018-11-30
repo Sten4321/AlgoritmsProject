@@ -9,16 +9,13 @@ namespace Grid
 {
     class Astar
     {
-        public static List<Cell> openList;
-        public static List<Cell> ClosedList;
-        public static List<Cell> path;
+        public static List<Cell> openList = new List<Cell>();// list of nodes to examine  
+        public static List<Cell> ClosedList = new List<Cell>();//nodes that have been examined
+        public static List<Cell> path = new List<Cell>();
 
         public static void FindPath(Cell statingCell, Cell goalCell)
         {
-
-            openList = new List<Cell>();// list of nodes to examine  
-
-            ClosedList = new List<Cell>(); //nodes that have been examined
+            Clear();
 
             openList.Add(statingCell); //starting point
 
@@ -60,7 +57,7 @@ namespace Grid
                     {
                         neighbour.GValue = newMoveCost;
 
-                        neighbour.GValue = GetDistance(neighbour, goalCell);
+                        neighbour.HValue = GetDistance(neighbour, goalCell);
 
                         //saves reference for returning path
                         neighbour.Parrent = currentCell;
@@ -73,10 +70,72 @@ namespace Grid
 
                 }
             }
+        }
 
+        /// <summary>
+        /// Returns true if there is a wall adjecent to the selected between it and the cell
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <param name="selected"></param>
+        /// <returns></returns>
+        private static bool AdjecentDioganalWall(Cell cell, Cell selected)
+        {
+            Point cellPosition = cell.position;
+            Point selectedPosition = selected.position;
 
+            if (!(cell.position.Y == selected.position.Y && cell.position.X <= selected.position.X)
+                || !(cell.position.Y == selected.position.Y && cell.position.X >= selected.position.X)
+                || !(cell.position.Y <= selected.position.Y && cell.position.X == selected.position.X)
+                || !(cell.position.Y >= selected.position.Y && cell.position.X == selected.position.X))
+            {
+                if (cellPosition.Y < selectedPosition.Y && cellPosition.X < selectedPosition.X)
+                {
+                    if (IsWall(selectedPosition.X, selectedPosition.Y - 1) || IsWall(selectedPosition.X - 1, selectedPosition.Y))
+                    {
+                        return true;
+                    }
+                }
+                else if (cellPosition.Y < selectedPosition.Y && cellPosition.X > selectedPosition.X)
+                {
+                    if (IsWall(selectedPosition.X, selectedPosition.Y - 1) || IsWall(selectedPosition.X + 1, selectedPosition.Y))
+                    {
+                        return true;
+                    }
+                }
+                else if (cellPosition.Y > selectedPosition.Y && cellPosition.X < selectedPosition.X)
+                {
+                    if (IsWall(selectedPosition.X, selectedPosition.Y + 1) || IsWall(selectedPosition.X - 1, selectedPosition.Y))
+                    {
+                        return true;
+                    }
+                }
+                else if (cellPosition.Y > selectedPosition.Y && cellPosition.X > selectedPosition.X)
+                {
+                    if (IsWall(selectedPosition.X, selectedPosition.Y + 1) || IsWall(selectedPosition.X + 1, selectedPosition.Y))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
 
-
+        /// <summary>
+        /// returns true if there is a wall at specified coordinates
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        private static bool IsWall(int x, int y)
+        {
+            foreach (Cell cell in GridManager.grid)
+            {
+                if (cell.MyType == CellType.WALL && cell.position == new Point(x, y))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         static void ReturnPath(Cell start, Cell end)
@@ -147,22 +206,18 @@ namespace Grid
                                 //find the cell in the grid list
                                 if (_cell.position.X == XCheck && _cell.position.Y == YCheck)
                                 {
-                                    neighbours.Add(_cell);
-                                    break;
-
+                                    if (!AdjecentDioganalWall(_cell, cell))
+                                    {
+                                        neighbours.Add(_cell);
+                                        break;
+                                    }
                                 }
-
                             }
-
-
                         }
                     }
-
                 }
             }
             return neighbours;
-
-
         }
 
         private static int GetDistance(Cell a, Cell b)
@@ -178,5 +233,20 @@ namespace Grid
 
         }
 
+        /// <summary>
+        /// Clears Values
+        /// </summary>
+        private static void Clear()
+        {
+            foreach (Cell cell in GridManager.grid)
+            {
+                path = new List<Cell>();
+                openList = new List<Cell>();// list of nodes to examine  
+                ClosedList = new List<Cell>(); //nodes that have been examined
+                cell.Parrent = null;
+                cell.GValue = default(int);
+                cell.HValue = default(int);
+            }
+        }
     }
 }
