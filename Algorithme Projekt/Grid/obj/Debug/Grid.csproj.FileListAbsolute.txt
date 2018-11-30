@@ -135,3 +135,5 @@ D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\bin\Debug\Images\Water
 D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\bin\Debug\Images\WaterEdge.png
 D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\bin\Debug\Images\Wizard.png
 D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\bin\Debug\Images\Tree.png
+D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\bin\Debug\Images\Tower.png
+D:\Code projects\AlgoritmsProject\Algorithme Projekt\Grid\bin\Debug\Images\Portal.png

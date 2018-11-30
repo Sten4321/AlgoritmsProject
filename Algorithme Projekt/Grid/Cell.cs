@@ -110,7 +110,7 @@ namespace Grid
 
                     break;
                 case CellType.TOWER:
-                    sprite = Image.FromFile(@"Images\Crystal.png");
+                    sprite = Image.FromFile(@"Images\Tower.png");
 
                     break;
                 case CellType.CRYSTAL:
@@ -118,7 +118,7 @@ namespace Grid
 
                     break;
                 case CellType.PORTAL:
-                    sprite = Image.FromFile(@"Images\Start.png");
+                    sprite = Image.FromFile(@"Images\Portal.png");
 
                     break;
 

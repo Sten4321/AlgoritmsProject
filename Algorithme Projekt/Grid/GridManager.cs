@@ -121,6 +121,47 @@ namespace Grid
             MakeRoads();
             MakeTrees();
             MakeWater();
+
+            MakeTower();
+            MakeCrystal();
+
+            MakePortal();
+        }
+
+        private void MakePortal()
+        {
+            foreach (Cell cell in grid)
+            {
+                if (cell.position == new Point(0, 8))
+                {
+                    cell.MyType = CellType.PORTAL;
+                    cell.AssignSprite();
+                }
+            }
+        }
+
+        private void MakeTower()
+        {
+            foreach (Cell cell in grid)
+            {
+                if (cell.position == new Point(2, 4))
+                {
+                    cell.MyType = CellType.TOWER;
+                    cell.AssignSprite();
+                }
+            }
+        }
+
+        private void MakeCrystal()
+        {
+            foreach (Cell cell in grid)
+            {
+                if (cell.position == new Point(8, 6))
+                {
+                    cell.MyType = CellType.CRYSTAL;
+                    cell.AssignSprite();
+                }
+            }
         }
 
         private void MakeRoads()
