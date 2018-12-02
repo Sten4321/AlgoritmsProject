@@ -65,13 +65,13 @@ namespace Grid
             timeThatHasPassedInThisLevel = +stopWatch.ElapsedMilliseconds;
 
             //remove: automatically loops 
-            if (levelIsPlaying == false)
-            {
-                Wizard.Instance.pathFinder = new Astar();
-                StartGame();
-                levelIsPlaying = true;
-                attemptsCount++;
-            }
+            //if (levelIsPlaying == false)
+            //{
+            //    Wizard.Instance.pathFinder = new Astar();
+            //    StartGame();
+            //    levelIsPlaying = true;
+            //    attemptsCount++;
+            //}
             //
         }
 
@@ -135,6 +135,15 @@ namespace Grid
         /// </summary>
         private void Setup()
         {
+            HighScoreSetUp();
+
+
+            
+
+        }
+
+        private void HighScoreSetUp()
+        {
             //if there is not a highscore file
             if (!File.Exists("HighScore.txt"))
             {
@@ -162,12 +171,8 @@ namespace Grid
                 File.WriteAllText("HighScore.txt", int.MaxValue.ToString() + ";0");
 
                 //tries again
-                Setup();
+                HighScoreSetUp();
             }
-
-
-            
-
         }
 
         /// <summary>
