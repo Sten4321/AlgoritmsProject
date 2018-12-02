@@ -32,8 +32,13 @@ namespace Grid
         public bool levelIsPlaying;
 
         public float finalTime;
-        private float highScore;
-        private int attemptsCount;
+
+        int algorithmRotationIndex = 0;
+
+        private float AStarHighScore;
+        private int AStarAttemptsCount;
+        public float bFShighScore;
+        public int bFSattemptsCount;
 
         public Form1()
         {
@@ -57,22 +62,42 @@ namespace Grid
             {
                 Wizard.Instance.Update();
                 //+ cooldown amount in miliseconds
-                timeStamp = stopWatch.ElapsedMilliseconds + 0;
+                timeStamp = stopWatch.ElapsedMilliseconds + 250;
             }
 
-            this.Text = "Fastest Time: " + highScore / 1000 + "  Attempts: " + attemptsCount + "  Current Time: " + (timeThatHasPassedInThisLevel / 1000).ToString();
+            if (Wizard.Instance.pathFinder is Astar)
+            {
+                this.Text = "A-STAR - Fastest Time: " + AStarHighScore / 1000 + "  Attempts: " + AStarAttemptsCount + "  Current Time: " + (timeThatHasPassedInThisLevel / 1000).ToString();
+
+            }
+            else
+            {
+                this.Text = "BFS - Fastest Time: " + bFShighScore / 1000 + "  Attempts: " + bFSattemptsCount + "  Current Time: " + (timeThatHasPassedInThisLevel / 1000).ToString();
+
+            }
 
             timeThatHasPassedInThisLevel = +stopWatch.ElapsedMilliseconds;
 
             //remove: automatically loops 
-            //if (levelIsPlaying == false)
-            //{
-            //    Wizard.Instance.pathFinder = new Astar();
-            //    StartGame();
-            //    levelIsPlaying = true;
-            //    attemptsCount++;
-            //}
-            //
+            if (levelIsPlaying == false)
+            {
+
+                if (algorithmRotationIndex ==0)
+                {
+                    Wizard.Instance.pathFinder = new Astar();
+                    algorithmRotationIndex++;
+                }
+                else
+                {
+                    Wizard.Instance.pathFinder = new BFS();
+                    algorithmRotationIndex = 0;
+                }
+               
+                StartGame();
+                levelIsPlaying = true;
+
+            }
+
         }
 
 
@@ -123,6 +148,15 @@ namespace Grid
             //Go get them, wizard!
             Wizard.Instance.FindClosestItemOfInterest();
 
+            if (Wizard.Instance.pathFinder is Astar)
+            {
+            AStarAttemptsCount++;
+
+            }
+            else
+            {
+                bFSattemptsCount++;
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -138,37 +172,64 @@ namespace Grid
             HighScoreSetUp();
 
 
-            
+
 
         }
 
         private void HighScoreSetUp()
         {
             //if there is not a highscore file
-            if (!File.Exists("HighScore.txt"))
+            if (!File.Exists("AStarHighScore.txt"))
             {
                 //make one
-                File.Create("HighScore.txt").Close();
+                File.Create("AStarHighScore.txt").Close();
 
                 //write high number, so any new score will always be lower and 
-                File.WriteAllText("HighScore.txt", int.MaxValue.ToString() + ";0");
+                File.WriteAllText("AStarHighScore.txt", int.MaxValue.ToString() + ";0");
+
+            }
+            //if there is not a highscore file
+            if (!File.Exists("BFSHighScore.txt"))
+            {
+                //make one
+                File.Create("BFSHighScore.txt").Close();
+
+                //write high number, so any new score will always be lower and 
+                File.WriteAllText("BFSHighScore.txt", int.MaxValue.ToString() + ";0");
 
             }
             //Remember the highscore
-            string[] textArray = File.ReadAllText("Highscore.txt").Split(';');
+            string[] AStarArray = File.ReadAllText("AStarHighScore.txt").Split(';');
+            string[] BFSArray = File.ReadAllText("BFSHighScore.txt").Split(';');
 
             try
             {
-                float.TryParse(textArray[0], out highScore);
-                int.TryParse(textArray[1], out attemptsCount);
+                float.TryParse(AStarArray[0], out AStarHighScore);
+                int.TryParse(AStarArray[1], out AStarAttemptsCount);
             }
             catch (Exception) //if the file format has been updated, but old highscore file still exists
             {
                 //make one
-                File.Create("HighScore.txt").Close();
+                File.Create("AStarHighScore.txt").Close();
 
                 //write high number, so any new score will always be lower and 
-                File.WriteAllText("HighScore.txt", int.MaxValue.ToString() + ";0");
+                File.WriteAllText("AStarHighScore.txt", int.MaxValue.ToString() + ";0");
+
+                //tries again
+                HighScoreSetUp();
+            }
+            try
+            {
+                float.TryParse(BFSArray[0], out bFShighScore);
+                int.TryParse(BFSArray[1], out bFSattemptsCount);
+            }
+            catch (Exception) //if the file format has been updated, but old highscore file still exists
+            {
+                //make one
+                File.Create("BFSHighScore.txt").Close();
+
+                //write high number, so any new score will always be lower and 
+                File.WriteAllText("BFSHighScore.txt", int.MaxValue.ToString() + ";0");
 
                 //tries again
                 HighScoreSetUp();
@@ -178,24 +239,45 @@ namespace Grid
         /// <summary>
         /// Checks if the highscore should be overwritten, and does so if needed
         /// </summary>
-        public void ReWriteHighScore()
+        public void ReWriteHighScore(IFindPath pathType)
         {
-
-
-            //Finds the current highscore
-            string[] textArray = File.ReadAllText("Highscore.txt").Split(';');
-
-            //the highscore string
-            float.TryParse(textArray[0], out float currentHighscore);
-
-
-            //If this time was faster
-            if (finalTime < currentHighscore)
+            if (pathType is Astar)
             {
-                //it's the new highscore
-                highScore = finalTime;
+                //Finds the current highscore
+                string[] textArray = File.ReadAllText("AStarHighScore.txt").Split(';');
+
+                //the highscore string
+                float.TryParse(textArray[0], out float currentHighscore);
+
+
+                //If this time was faster
+                if (finalTime < currentHighscore)
+                {
+                    //it's the new highscore
+                    AStarHighScore = finalTime;
+                }
+                File.WriteAllText("AStarHighScore.txt", AStarHighScore.ToString() + ";" + AStarAttemptsCount);
+
+                return;
             }
-            File.WriteAllText("HighScore.txt", highScore.ToString() + ";" + attemptsCount);
+            else
+            {
+
+                //Finds the current highscore
+                string[] textArray = File.ReadAllText("BFSHighScore.txt").Split(';');
+
+                //the highscore string
+                float.TryParse(textArray[0], out float currentHighscore);
+
+
+                //If this time was faster
+                if (finalTime < currentHighscore)
+                {
+                    //it's the new highscore
+                    bFShighScore = finalTime;
+                }
+                File.WriteAllText("BFSHighScore.txt", bFShighScore.ToString() + ";" + bFSattemptsCount);
+            }
 
         }
     }
