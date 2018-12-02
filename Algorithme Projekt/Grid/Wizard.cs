@@ -220,9 +220,8 @@ namespace Grid
                 }
             }
 
-            //Finds the path based on the wizard's objective
+            //Finds the path based on the wizard's objective using AStar
             pathToNextItem = Astar.FindPath(startCell, targetCell);
-
         }
 
         /// <summary>
@@ -253,7 +252,7 @@ namespace Grid
             //Find the path with the least amount of move counts
             pathToNextItem = GetLeastMoves(keyPaths[0], keyPaths[1]);
 
-          
+
 
         }
 
@@ -268,6 +267,9 @@ namespace Grid
             return firstPath.Count < secondPath.Count ? firstPath : secondPath;
         }
 
+        /// <summary>
+        /// Handles what the wizard does
+        /// </summary>
         public void Update()
         {
             //If the wizard has somewhere to go
