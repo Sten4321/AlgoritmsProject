@@ -29,7 +29,7 @@ namespace Grid
         public float timeThatHasPassedInThisLevel = 0;
 
         //determines when the wizard starts moving
-        public bool shouldStart;
+        public bool levelIsPlaying;
 
         public float finalTime;
         private float highScore;
@@ -63,12 +63,12 @@ namespace Grid
             timeThatHasPassedInThisLevel = +stopWatch.ElapsedMilliseconds;
 
             //remove:
-            //if (shouldStart == false)
-            //{
-            //    Wizard.Instance.pathFinder = new Astar();
-            //    StartGame();
-            //    shouldStart = true;
-            //}
+            if (levelIsPlaying == false)
+            {
+                Wizard.Instance.pathFinder = new Astar();
+                StartGame();
+                levelIsPlaying = true;
+            }
 
         }
 
@@ -84,23 +84,23 @@ namespace Grid
         {
             if (e.KeyCode == Keys.Enter)
             {
-                if (shouldStart == false)
+                if (levelIsPlaying == false)
                 {
                     //Sets wizards strategy to astar, and executes its algorithmes                    
                     Wizard.Instance.pathFinder = new Astar();
                     StartGame();
-                    shouldStart = true;
+                    levelIsPlaying = true;
                 }
 
             }
             if (e.KeyCode == Keys.Back)
             {
-                if (shouldStart == false)                {
+                if (levelIsPlaying == false)                {
                     //Sets wizards strategy to BFS, and executes its algorithmes                    
 
                     Wizard.Instance.pathFinder = new BFS();
                     StartGame();
-                    shouldStart = true;
+                    levelIsPlaying = true;
                 }
 
             }

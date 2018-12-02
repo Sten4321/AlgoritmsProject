@@ -116,7 +116,7 @@ namespace Grid
             formRef.stopWatch.Stop();
 
             //allows player to press start button
-            formRef.shouldStart = false;
+            formRef.levelIsPlaying = false;
 
             //Rewrites the highscore
             formRef.ReWriteHighScore();
