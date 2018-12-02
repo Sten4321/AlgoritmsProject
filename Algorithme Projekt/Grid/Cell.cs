@@ -8,7 +8,7 @@ using static Grid.CellType;
 
 namespace Grid
 {
-    public enum CellType { START, GOAL, WALL, EMPTY, KEY, TOWER, CRYSTAL, PORTAL };
+    public enum CellType { START, GOAL, WALL, EMPTY, KEY, TOWER, CRYSTAL, PORTAL, ROAD, TREE, WATER, MONSTERCELL };
 
     public class Cell
     {
@@ -25,12 +25,15 @@ namespace Grid
         /// <summary>
         /// The cell's sprite
         /// </summary>
-        private Image sprite;
+        public Image sprite;
+
+        //For keys to remember their sprites
+        public CellType initialType;
 
         /// <summary>
         /// the type of cell
         /// </summary>
-        public CellType MyType { get; private set; } = EMPTY;
+        public CellType MyType { get; set; } = EMPTY;
 
         public Cell Parrent { get; set; }//stores the parrent cell
         public int HValue { get; set; }//stores the Hvalues of cell
@@ -61,6 +64,119 @@ namespace Grid
             //Sets the cell size
             this.cellSize = size;
 
+            AssignSprite();
+
+        }
+
+
+
+        public void AssignSprite()
+        {
+            switch (MyType)
+            {
+                case CellType.WATER:
+                    FindCorrectWaterSprite();
+                    break;
+                case CellType.ROAD:
+                    sprite = Image.FromFile(@"Images\Road.png");
+                    break;
+                case CellType.WALL:
+                    sprite = Image.FromFile(@"Images\Road.png");
+
+                    break;
+                case CellType.TREE:
+                    sprite = Image.FromFile(@"Images\Tree.png");
+                    break;
+                case CellType.EMPTY:
+                    sprite = Image.FromFile(@"Images\Grass.png");
+                    break;
+                case CellType.KEY:
+                    sprite = Image.FromFile(@"Images\Key.png");
+
+                    break;
+                case CellType.TOWER:
+                    sprite = Image.FromFile(@"Images\Tower.png");
+
+                    break;
+                case CellType.CRYSTAL:
+                    sprite = Image.FromFile(@"Images\Crystal.png");
+
+                    break;
+                case CellType.PORTAL:
+                    sprite = Image.FromFile(@"Images\Portal.png");
+
+                    break;
+                
+                case CellType.MONSTERCELL:
+                    sprite = Image.FromFile(@"Images\MonsterTile.png");
+
+                    break;
+
+
+                default:
+                    sprite = Image.FromFile(@"Images\Start.png");
+
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Assigns the correct waterSprites to cells of the type Water
+        /// </summary>
+        private void FindCorrectWaterSprite()
+        {
+            // If my mother knew i coded this, she'd disown me
+
+            if (position.X == 5 && (position.Y > 1 || position.Y < 7))
+            {
+                sprite = Image.FromFile(@"Images\Water.png");
+            }
+            if (position.X == 5 && (position.Y == 1))
+            {
+                sprite = Image.FromFile(@"Images\WaterEdge.png");
+                sprite.RotateFlip(RotateFlipType.Rotate180FlipNone);
+
+            }
+            if (position.X == 5 && (position.Y == 6))
+            {
+                sprite = Image.FromFile(@"Images\WaterEdge.png");
+
+            }
+            if (position.X == 4 && (position.Y > 1 && position.Y < 6))
+            {
+                sprite = Image.FromFile(@"Images\WaterEdge.png");
+                sprite.RotateFlip(RotateFlipType.Rotate90FlipNone);
+
+            }
+            if (position.X == 6 && (position.Y > 1 && position.Y < 6))
+            {
+                sprite = Image.FromFile(@"Images\WaterEdge.png");
+                sprite.RotateFlip(RotateFlipType.Rotate270FlipNone);
+
+            }
+            if (position.X == 4 && position.Y == 1)
+            {
+                sprite = Image.FromFile(@"Images\WaterCorner.png");
+                sprite.RotateFlip(RotateFlipType.Rotate90FlipNone);
+
+
+            }
+            if (position.X == 6 && position.Y == 1)
+            {
+                sprite = Image.FromFile(@"Images\WaterCorner.png");
+                sprite.RotateFlip(RotateFlipType.Rotate180FlipNone);
+
+
+            }
+            if (position.X == 6 && position.Y == 6)
+            {
+                sprite = Image.FromFile(@"Images\WaterCorner.png");
+                sprite.RotateFlip(RotateFlipType.Rotate270FlipNone);
+            }
+            if (position.X == 4 && position.Y == 6)
+            {
+                sprite = Image.FromFile(@"Images\WaterCorner.png");
+            }
         }
 
         /// <summary>
@@ -114,36 +230,13 @@ namespace Grid
 #endif
         }
 
-        /// <summary>
-        /// Clicks the cell
-        /// </summary>
-        /// <param name="clickType">The click type</param>
-        public void Click(ref CellType clickType)
+
+
+       
+
+        public override string ToString()
         {
-            if (clickType == START) //If the click type is START
-            {
-                sprite = Image.FromFile(@"Images\Start.png");
-                MyType = clickType;
-                clickType = GOAL;
-                GridManager.startCell = this;
-            }
-            else if (clickType == GOAL && MyType != START) //If the click type is GOAL
-            {
-                sprite = Image.FromFile(@"Images\Goal.png");
-                clickType = WALL;
-                MyType = GOAL;
-                GridManager.goalCell = this;
-            }
-            else if (clickType == WALL && MyType != START && MyType != GOAL && MyType != WALL) //If the click type is WALL
-            {
-                sprite = Image.FromFile(@"Images\Wall.png");
-                MyType = WALL;
-            }
-            else if (clickType == WALL && MyType == WALL) //If the click type is WALL
-            {
-                sprite = null;
-                MyType = EMPTY;
-            }
+            return MyType.ToString() + "  X: " + position.X + "  y: " + position.Y;
         }
     }
 }
