@@ -92,10 +92,13 @@ namespace Grid
                                 //find the cell in the grid list
                                 if (_cell.position.X == XCheck && _cell.position.Y == YCheck)
                                 {
-                                    if (!AdjecentDioganalWall(_cell, e))
+                                    if (!IsWall(_cell.position.X, _cell.position.Y))
                                     {
-                                        neighbours.Add(_cell);
-                                        break;
+                                        if (!AdjecentDioganalWall(_cell, e))
+                                        {
+                                            neighbours.Add(_cell);
+                                            break;
+                                        }
                                     }
                                 }
                             }
