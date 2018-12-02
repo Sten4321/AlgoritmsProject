@@ -12,6 +12,7 @@ namespace Grid
         public static List<Cell> path = new List<Cell>();
         static List<Cell> discovered;
         static Cell destinationCell;
+        static Cell start;
 
         /// <summary>
         /// returns a path list
@@ -19,9 +20,10 @@ namespace Grid
         /// <param name="wizard"></param>
         /// <param name="Destination"></param>
         /// <returns></returns>
-        public  List<Cell> FindPath(Cell statingCell, Cell destination)
+        public List<Cell> FindPath(Cell statingCell, Cell destination)
         {
             destinationCell = destination;
+            start = statingCell;
             discovered = new List<Cell>();
             Queue<Cell> s = new Queue<Cell>();//queue of cells
 
@@ -161,7 +163,7 @@ namespace Grid
         {
             foreach (Cell cell in GridManager.grid)
             {
-                if ((cell.MyType == CellType.WALL || cell.MyType == CellType.TREE || cell.MyType == CellType.WATER || cell.MyType == CellType.MONSTERCELL) && cell.position == new Point(x, y))
+                if ((cell.MyType == CellType.WALL || cell.MyType == CellType.TREE || cell.MyType == CellType.WATER) && cell.position == new Point(x, y))
                 {
                     return true;
                 }
@@ -175,10 +177,9 @@ namespace Grid
         private static void AddToPath()
         {
             Cell current = destinationCell;
-            path.Add(current);
-            while (current.Parrent != null)
+            while (current != start)
             {
-                path.Add(current.Parrent);
+                path.Add(current);
                 current = current.Parrent;
             }
         }

@@ -36,9 +36,7 @@ namespace Grid
         private CellType clickType;
 
         //  public static Cell startCell, goalCell;
-
-        public static List<Cell> pathToEnd = new List<Cell>();
-
+        
         public static Form1 formRef;
 
         public GridManager(Graphics dc, Rectangle displayRectangle, Form1 _formRef)
