@@ -150,10 +150,6 @@ namespace Grid
         {
             foreach (Cell cell in GridManager.grid)
             {
-
-                if ((cell.MyType == CellType.WALL || cell.MyType == CellType.WATER || cell.MyType == CellType.TREE)
-                    && cell.position == new Point(x, y))
-
                 if ((cell.MyType == CellType.WALL || cell.MyType == CellType.TREE || cell.MyType == CellType.WATER || cell.MyType == CellType.MONSTERCELL) && cell.position == new Point(x, y))
 
                 {
@@ -258,7 +254,7 @@ namespace Grid
                 ? 14 * yDistance + 10 * (xDistance - yDistance)
                 : 14 * xDistance + 10 * (yDistance - xDistance);
 
-          
+
 
         }
 
