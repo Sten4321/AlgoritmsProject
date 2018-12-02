@@ -10,13 +10,14 @@ namespace Grid
 {
 
 
-    class GridManager
+    public class GridManager
     {
         //Handeling of graphics
         private BufferedGraphics backBuffer;
         private Graphics dc;
         private Rectangle displayRectangle;
 
+        public static int cellSize;
         /// <summary>
         /// Amount of rows in the grid
         /// </summary>
@@ -27,20 +28,22 @@ namespace Grid
         /// </summary>
         public static List<Cell> grid;
 
+
+
         /// <summary>
         /// The current click type
         /// </summary>
         private CellType clickType;
 
-        public static Cell startCell, goalCell;
+        //  public static Cell startCell, goalCell;
 
         public static List<Cell> pathToEnd = new List<Cell>();
 
+        public static Form1 formRef;
 
-        private Wizard player;
-
-        public GridManager(Graphics dc, Rectangle displayRectangle)
+        public GridManager(Graphics dc, Rectangle displayRectangle, Form1 _formRef)
         {
+            formRef = _formRef;
             //Create's (Allocates) a buffer in memory with the size of the display
             this.backBuffer = BufferedGraphicsManager.Current.Allocate(dc, displayRectangle);
 
@@ -54,7 +57,10 @@ namespace Grid
             cellRowCount = 10;
 
             CreateGrid();
+
         }
+
+
 
         /// <summary>
         /// Renders all the cells
@@ -68,10 +74,10 @@ namespace Grid
                 cell.Render(dc);
             }
 
-            if (player != null)
-            {
-                player.Draw(dc);
-            }
+
+
+            Wizard.Instance.Draw(dc);
+
 
             //Renders the content of the buffered graphics context to the real context(Swap buffers)
             backBuffer.Render();
@@ -86,7 +92,7 @@ namespace Grid
             grid = new List<Cell>();
 
             //Sets the cell size
-            int cellSize = displayRectangle.Width / cellRowCount;
+            cellSize = displayRectangle.Width / cellRowCount;
 
             //Creates all the cells
             for (int x = 0; x < cellRowCount; x++)
@@ -98,6 +104,19 @@ namespace Grid
             }
 
             CreateLevel(cellSize);//creates the level
+
+        }
+
+        public void ResetLevel()
+        {
+            //For showing final time
+            formRef.stopWatch.Stop();
+
+            //allows player to press start button
+            formRef.shouldStart = false;
+
+            //resets all cell positions and spawns random keys
+            CreateGrid();
         }
 
         /// <summary>
@@ -106,14 +125,7 @@ namespace Grid
         /// <param name="mousePos"></param>
         public void ClickCell(Point mousePos)
         {
-            foreach (Cell cell in grid) //Finds the cell that we just clicked
-            {
-                if (cell.BoundingRectangle.IntersectsWith(new Rectangle(mousePos, new Size(1, 1))))
-                {
-                    cell.Click(ref clickType);
-                }
 
-            }
         }
 
 
@@ -128,13 +140,61 @@ namespace Grid
             MakeRoads();
             MakeTrees();
             MakeWater();
-
             MakeTower();
             MakeCrystal();
-
             MakePortal();
+            MakeMonsterCell();
+            //Make two keys on random spots that are "walkable" and not a monster tile
+            for (int i = 0; i < 2; i++)
+            {
+                MakeKeys();
+            }
 
-            player = new Wizard(new Point(1, 8), cellSize);
+        }
+
+        private void MakeMonsterCell()
+        {
+            foreach (Cell cell in grid)
+            {
+                if (cell.position == new Point(6, 8))
+                {
+                    cell.MyType = CellType.MONSTERCELL;
+                    cell.AssignSprite();
+                }
+            }
+        }
+
+        /// <summary>
+        /// generates a random key
+        /// </summary>
+        private void MakeKeys()
+        {
+            Random rnd = new Random();
+
+            //untill the key is being placed on a valid position
+            while (true)
+            {
+                Point keyPos = new Point(rnd.Next(cellRowCount), rnd.Next(cellRowCount)); //position of the key
+
+                foreach (Cell cell in grid)
+                {
+                    //if the cell is walkable
+                    if (cell.position == keyPos && (cell.MyType == CellType.EMPTY || cell.MyType == CellType.ROAD))
+                    {
+                        //if it's not the cell wizard is standing on
+                        if (Wizard.Instance.position.X != cell.position.X && Wizard.Instance.position.Y != cell.position.Y)
+                        {
+                            //For remembering its original appearence
+                            cell.initialType = cell.MyType;
+
+                            //changes type and appearence
+                            cell.MyType = CellType.KEY;
+                            cell.AssignSprite();
+                            return;
+                        }
+                    }
+                }
+            }
         }
 
         private void MakePortal()
@@ -224,11 +284,15 @@ namespace Grid
                 int y = 8;
                 foreach (Cell cell in grid)
                 {
-                    if (cell.position == new Point(x, y))
+                    if (x != 6)
                     {
-                        cell.MyType = CellType.ROAD;
 
-                        cell.AssignSprite();
+                        if (cell.position == new Point(x, y))
+                        {
+                            cell.MyType = CellType.ROAD;
+
+                            cell.AssignSprite();
+                        }
                     }
                 }
             }
@@ -242,6 +306,7 @@ namespace Grid
 
                 }
             }
+            
             #endregion;
         }
 

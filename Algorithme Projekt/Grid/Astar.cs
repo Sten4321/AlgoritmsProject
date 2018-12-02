@@ -13,8 +13,9 @@ namespace Grid
         public static List<Cell> ClosedList = new List<Cell>();//nodes that have been examined
         public static List<Cell> path = new List<Cell>();
 
-        public static void FindPath(Cell statingCell, Cell goalCell)
+        public static List<Cell> FindPath(Cell statingCell, Cell goalCell, CellType goalCellType)
         {
+
             Clear();
 
             openList.Add(statingCell); //starting point
@@ -34,16 +35,22 @@ namespace Grid
 
 
 
-                if (currentCell.MyType == CellType.GOAL)
+                if (currentCell.MyType == goalCellType)
                 {
                     //found target
+                    goalCell = currentCell;
+
                     ReturnPath(statingCell, goalCell); //extracts the found path
-                    return;
+                    return path;
                 }
                 //all walkable neighbouring tiles, that are not out of bound
-                foreach (Cell neighbour in FindNeighbours(currentCell))
+
+                List<Cell> neighbours = FindNeighbours(currentCell);
+                foreach (Cell neighbour in neighbours)
                 {
-                    if ((neighbour.MyType != CellType.EMPTY && neighbour.MyType != CellType.GOAL) || ClosedList.Contains(neighbour))
+                    if ((neighbour.MyType != CellType.EMPTY && neighbour.MyType != 
+                        goalCellType && neighbour.MyType != CellType.ROAD && neighbour.MyType != CellType.MONSTERCELL)
+                        || ClosedList.Contains(neighbour))
                     {
                         //ignore if obsticle or tile has already been walked on
                         continue;
@@ -69,7 +76,9 @@ namespace Grid
                     }
 
                 }
+
             }
+            return path;
         }
 
         /// <summary>

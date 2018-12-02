@@ -8,7 +8,7 @@ using static Grid.CellType;
 
 namespace Grid
 {
-    public enum CellType { START, GOAL, WALL, EMPTY, KEY, TOWER, CRYSTAL, PORTAL, ROAD, TREE, WATER };
+    public enum CellType { START, GOAL, WALL, EMPTY, KEY, TOWER, CRYSTAL, PORTAL, ROAD, TREE, WATER, MONSTERCELL };
 
     public class Cell
     {
@@ -25,7 +25,10 @@ namespace Grid
         /// <summary>
         /// The cell's sprite
         /// </summary>
-        private Image sprite;
+        public Image sprite;
+
+        //For keys to remember their sprites
+        public CellType initialType;
 
         /// <summary>
         /// the type of cell
@@ -88,7 +91,7 @@ namespace Grid
                     sprite = Image.FromFile(@"Images\Grass.png");
                     break;
                 case CellType.KEY:
-                    sprite = Image.FromFile(@"Images\Start.png");
+                    sprite = Image.FromFile(@"Images\Key.png");
 
                     break;
                 case CellType.TOWER:
@@ -101,6 +104,11 @@ namespace Grid
                     break;
                 case CellType.PORTAL:
                     sprite = Image.FromFile(@"Images\Portal.png");
+
+                    break;
+                
+                case CellType.MONSTERCELL:
+                    sprite = Image.FromFile(@"Images\Road.png");
 
                     break;
 
@@ -224,36 +232,11 @@ namespace Grid
 
 
 
-        /// <summary>
-        /// Clicks the cell
-        /// </summary>
-        /// <param name="clickType">The click type</param>
-        public void Click(ref CellType clickType)
+       
+
+        public override string ToString()
         {
-            if (clickType == START) //If the click type is START
-            {
-                sprite = Image.FromFile(@"Images\Start.png");
-                MyType = clickType;
-                clickType = GOAL;
-                GridManager.startCell = this;
-            }
-            else if (clickType == GOAL && MyType != START) //If the click type is GOAL
-            {
-                sprite = Image.FromFile(@"Images\Goal.png");
-                clickType = WALL;
-                MyType = GOAL;
-                GridManager.goalCell = this;
-            }
-            else if (clickType == WALL && MyType != START && MyType != GOAL && MyType != WALL) //If the click type is WALL
-            {
-                sprite = Image.FromFile(@"Images\Wall.png");
-                MyType = WALL;
-            }
-            else if (clickType == WALL && MyType == WALL) //If the click type is WALL
-            {
-                sprite = null;
-                MyType = EMPTY;
-            }
+            return MyType.ToString() + "  X: " + position.X + "  y: " + position.Y;
         }
     }
 }
