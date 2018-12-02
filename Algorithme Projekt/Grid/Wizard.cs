@@ -298,6 +298,9 @@ namespace Grid
             return firstPath.Count < secondPath.Count ? firstPath : secondPath;
         }
 
+        /// <summary>
+        /// Handles what the wizard does
+        /// </summary>
         public void Update()
         {
             //If the wizard has somewhere to go
@@ -328,3 +331,6 @@ namespace Grid
     }
 }
 
+
+        
+
