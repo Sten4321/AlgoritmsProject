@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Grid
 {
-    class Astar
+    class Astar : IFindPath
     {
         public static List<Cell> openList = new List<Cell>();// list of nodes to examine  
         public static List<Cell> ClosedList = new List<Cell>();//nodes that have been examined
@@ -20,7 +20,7 @@ namespace Grid
         /// <param name="goalCell"></param>
         /// <param name="goalCellType"></param>
         /// <returns></returns>
-        public static List<Cell> FindPath(Cell statingCell, Cell goalCell)
+        public  List<Cell> FindPath(Cell statingCell, Cell goalCell)
         {
 
             Clear();
@@ -148,7 +148,8 @@ namespace Grid
         {
             foreach (Cell cell in GridManager.grid)
             {
-                if (cell.MyType == CellType.WALL && cell.position == new Point(x, y))
+                if ((cell.MyType == CellType.WALL || cell.MyType ==CellType.WATER || cell.MyType == CellType.TREE) 
+                    && cell.position == new Point(x, y))
                 {
                     return true;
                 }
