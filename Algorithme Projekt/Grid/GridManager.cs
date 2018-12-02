@@ -117,7 +117,7 @@ namespace Grid
             formRef.levelIsPlaying = false;
 
             //Rewrites the highscore
-            formRef.ReWriteHighScore();
+            formRef.ReWriteHighScore(Wizard.Instance.pathFinder);
             //resets all cell positions and spawns random keys
             CreateGrid();
         }
