@@ -108,7 +108,7 @@ namespace Grid
                     break;
                 
                 case CellType.MONSTERCELL:
-                    sprite = Image.FromFile(@"Images\Road.png");
+                    sprite = Image.FromFile(@"Images\MonsterTile.png");
 
                     break;
 

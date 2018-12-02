@@ -179,9 +179,9 @@ namespace Grid
                 {
                     if (keyCount == 0)
                     {
+                        //Finds and walks to the closest key, if there are more than one
                         FindClosestKey(startCell, cell);
-
-                        return;
+                        return;//method handles the pathfinding
                     }
                     else
                     {
@@ -220,7 +220,8 @@ namespace Grid
                 }
             }
 
-            pathToNextItem = Astar.FindPath(startCell, targetCell, type);
+            //Finds the path based on the wizard's objective
+            pathToNextItem = Astar.FindPath(startCell, targetCell);
 
         }
 
@@ -238,14 +239,14 @@ namespace Grid
             List<List<Cell>> keyPaths = new List<List<Cell>>();
 
             //Adds the first path
-            keyPaths.Add(Astar.FindPath(startCell, firstKey, CellType.KEY));
+            keyPaths.Add(Astar.FindPath(startCell, firstKey));
 
             //Then finds and adds the second
             foreach (Cell cell in GridManager.grid)
             {
                 if (cell.MyType == CellType.KEY && cell != firstKey)
                 {
-                    keyPaths.Add(Astar.FindPath(startCell, cell, CellType.KEY));
+                    keyPaths.Add(Astar.FindPath(startCell, cell));
                 }
             }
 

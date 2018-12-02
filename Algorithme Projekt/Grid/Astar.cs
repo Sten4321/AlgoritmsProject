@@ -13,10 +13,19 @@ namespace Grid
         public static List<Cell> ClosedList = new List<Cell>();//nodes that have been examined
         public static List<Cell> path = new List<Cell>();
 
-        public static List<Cell> FindPath(Cell statingCell, Cell goalCell, CellType goalCellType)
+        /// <summary>
+        /// Returns the shortest route between point A and point B, using the A* algorithm 
+        /// </summary>
+        /// <param name="statingCell"></param>
+        /// <param name="goalCell"></param>
+        /// <param name="goalCellType"></param>
+        /// <returns></returns>
+        public static List<Cell> FindPath(Cell statingCell, Cell goalCell)
         {
 
             Clear();
+
+            CellType goalCellType = goalCell.MyType;
 
             openList.Add(statingCell); //starting point
 
@@ -48,7 +57,7 @@ namespace Grid
                 List<Cell> neighbours = FindNeighbours(currentCell);
                 foreach (Cell neighbour in neighbours)
                 {
-                    if ((neighbour.MyType != CellType.EMPTY && neighbour.MyType != 
+                    if ((neighbour.MyType != CellType.EMPTY && neighbour.MyType !=
                         goalCellType && neighbour.MyType != CellType.ROAD && neighbour.MyType != CellType.MONSTERCELL)
                         || ClosedList.Contains(neighbour))
                     {
