@@ -106,7 +106,7 @@ namespace Grid
                     sprite = Image.FromFile(@"Images\Portal.png");
 
                     break;
-                
+
                 case CellType.MONSTERCELL:
                     sprite = Image.FromFile(@"Images\MonsterTile.png");
 
@@ -230,9 +230,20 @@ namespace Grid
 #endif
         }
 
+        /// <summary>
+        /// Clicks the cell
+        /// </summary>
+        /// <param name="clickType">The click type</param>
+        public void Click()        {
+
+            MyType = MONSTERCELL;
+            AssignSprite();
+
+        }
 
 
-       
+
+
 
         public override string ToString()
         {

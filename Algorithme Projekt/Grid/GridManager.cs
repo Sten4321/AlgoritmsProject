@@ -131,7 +131,14 @@ namespace Grid
         /// <param name="mousePos"></param>
         public void ClickCell(Point mousePos)
         {
+            foreach (Cell cell in grid) //Finds the cell that we just clicked
+            {
+                if (cell.BoundingRectangle.IntersectsWith(new Rectangle(mousePos, new Size(1, 1))))
+                {
+                    cell.Click();
+                }
 
+            }
         }
 
 

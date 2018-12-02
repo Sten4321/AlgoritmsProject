@@ -62,6 +62,13 @@ namespace Grid
 
             timeThatHasPassedInThisLevel = +stopWatch.ElapsedMilliseconds;
 
+            //remove:
+            if (shouldStart == false)
+            {
+                StartGame();
+                shouldStart = true;
+            }
+
         }
 
 
