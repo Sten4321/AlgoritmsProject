@@ -109,15 +109,21 @@ namespace Grid
 
         public void ResetLevel()
         {
+            formRef.finalTime = formRef.stopWatch.ElapsedMilliseconds;
+
             //For showing final time
             formRef.stopWatch.Stop();
 
             //allows player to press start button
             formRef.shouldStart = false;
 
+            //Rewrites the highscore
+            formRef.ReWriteHighScore();
             //resets all cell positions and spawns random keys
             CreateGrid();
         }
+
+       
 
         /// <summary>
         /// If the mouse clicks on a cell

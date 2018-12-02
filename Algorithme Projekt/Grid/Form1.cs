@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace Grid
     public partial class Form1 : Form
     {
         public GridManager visualManager;
+
 
         //for taking time
         public Stopwatch stopWatch = new Stopwatch();
@@ -28,6 +30,9 @@ namespace Grid
 
         //determines when the wizard starts moving
         public bool shouldStart;
+
+        public float finalTime;
+        private float highScore;
 
         public Form1()
         {
@@ -53,9 +58,11 @@ namespace Grid
                 timeStamp = stopWatch.ElapsedMilliseconds + 0;
             }
 
-            this.Text = (timeThatHasPassedInThisLevel / 1000).ToString();
+            this.Text = "Highscore: "+ highScore/1000+"  current time: "+(timeThatHasPassedInThisLevel / 1000).ToString();
 
             timeThatHasPassedInThisLevel = +stopWatch.ElapsedMilliseconds;
+
+        
         }
 
 
@@ -96,7 +103,29 @@ namespace Grid
 
         private void Setup()
         {
+            if (!File.Exists("HighScore.txt"))
+            {
 
+                File.Create("HighScore.txt").Close();
+
+                File.WriteAllText("HighScore.txt", int.MaxValue.ToString());
+
+            }
+            float.TryParse(File.ReadAllText("HighScore.txt"), out highScore);
+        }
+
+        internal void ReWriteHighScore()
+        {
+            float currentHighscore;
+
+            float.TryParse(File.ReadAllText("HighScore.txt"), out currentHighscore);
+
+            if (finalTime < currentHighscore)
+            {
+                File.WriteAllText("HighScore.txt", finalTime.ToString());
+
+                highScore = finalTime;
+            }
         }
     }
 }
