@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Grid
 {
-    class BFS
+    class BFS : IFindPath
     {
         public static List<Cell> path = new List<Cell>();
         static List<Cell> discovered;
@@ -19,7 +19,7 @@ namespace Grid
         /// <param name="wizard"></param>
         /// <param name="Destination"></param>
         /// <returns></returns>
-        public static List<Cell> BFSAlgoritm(Cell statingCell, Cell destination)
+        public  List<Cell> FindPath(Cell statingCell, Cell destination)
         {
             destinationCell = destination;
             discovered = new List<Cell>();

@@ -9,7 +9,8 @@ namespace Grid
 {
     class Wizard
     {
-
+        //Strategy pattern - the algorithm it uses to find path
+        public IFindPath pathFinder = new Astar();
 
         public Point position { get; set; }
 
@@ -19,8 +20,10 @@ namespace Grid
 
         private static Wizard instance;
 
+        //The path, cell by cell, that wizard should walk. He will do so automatically, is it not empty.
         private List<Cell> pathToNextItem = new List<Cell>();
 
+        //For writing on screen
         public string currentTaskText = string.Empty;
 
         public static Wizard Instance
@@ -43,12 +46,12 @@ namespace Grid
             }
         }
 
+
+        //for tracking objectives
         public int keyCount = 0;
-
         public bool hasPotion = false;
-
         public bool canEnterPortal = false;
-
+        //
 
 
         /// <summary>
@@ -61,13 +64,17 @@ namespace Grid
             position = _coord;
             this.spriteSize = spriteSize;
         }
-
+        /// <summary>
+        /// Draws the wizard and his current objective
+        /// </summary>
+        /// <param name="dc"></param>
         public void Draw(Graphics dc)
         {
             if (sprite != null)
             {
                 dc.DrawImage(sprite, BoundingRectangle);
             }
+            //If wizard has a task, it writes the task on the screen
             if (currentTaskText != string.Empty)
             {
                 dc.DrawString(currentTaskText, new Font("Arial", 30, FontStyle.Regular),
@@ -86,12 +93,16 @@ namespace Grid
             {
                 case CellType.KEY:
                     //Picks up key and resets its sprite
+                    Console.Beep(500, 50);
+
                     CollectKey(cell);
                     break;
                 case CellType.TOWER:
                     //Wizard have the potion it needs for crystal
                     if (keyCount == 2)
                     {
+                        Console.Beep(300, 50);
+
                         hasPotion = true;
                     }
                     break;
@@ -99,6 +110,8 @@ namespace Grid
                     //if wizard have the potion, the wizard will  delivere the potion
                     if (hasPotion)
                     {
+                        Console.Beep(300, 50);
+
                         canEnterPortal = true;
                     }
                     break;
@@ -106,20 +119,29 @@ namespace Grid
                     // if it has delivered the potion, it may enter the portal, and reset the level
                     if (canEnterPortal)
                     {
+                        Console.Beep(300, 300);
+
                         GridManager.formRef.visualManager.ResetLevel();
                         instance = null;
                     }
                     break;
 
                 case CellType.MONSTERCELL:
+                    Console.Beep(100, 200);
+
                     //Makes the monstercell Unwalkable and changes its sprite
                     ActivateMonsterCell(cell);
                     break;
+
                 default:
                     break;
             }
         }
 
+        /// <summary>
+        /// Activates the monstercell (makes it unwalkable)
+        /// </summary>
+        /// <param name="cell"></param>
         private void ActivateMonsterCell(Cell cell)
         {
             //Changes sprite
@@ -157,6 +179,16 @@ namespace Grid
         /// </summary>
         public void FindClosestItemOfInterest()
         {
+
+            /* 
+             Objectives in order:
+            - get 2 keys
+            - unlock tower to get potion
+            - use potion on crystal
+            - enter portal
+             */
+
+            //Wizard's cell
             Cell startCell = new Cell(new Point(0, 0), 0);
 
             foreach (Cell cell in GridManager.grid)
@@ -169,8 +201,9 @@ namespace Grid
                 }
             }
 
+            //the cell to find
             Cell targetCell = new Cell(new Point(0, 0), 0);
-            CellType type = CellType.EMPTY;
+
 
             //Tries to find the next item in its sequence
             foreach (Cell cell in GridManager.grid)
@@ -187,8 +220,7 @@ namespace Grid
                     {
                         //FIND KEY
                         targetCell = cell;
-                        type = CellType.KEY;
-                        currentTaskText = "FIND KEY";
+                        currentTaskText = "FIND KEYS: " + (2 - keyCount);
                         break;
                     }
                 }
@@ -196,7 +228,6 @@ namespace Grid
                 {
                     //FIND TOWER
                     targetCell = cell;
-                    type = CellType.TOWER;
                     currentTaskText = "UNLOCK TOWER";
                     break;
                 }
@@ -204,7 +235,6 @@ namespace Grid
                 {
                     //FIND CRYSTAL
                     targetCell = cell;
-                    type = CellType.CRYSTAL;
                     currentTaskText = "BRING POTION TO CRYSTAL";
 
                     break;
@@ -213,15 +243,15 @@ namespace Grid
                 {
                     //FIND CRYSTAL
                     targetCell = cell;
-                    type = CellType.PORTAL;
                     currentTaskText = "ENTER PORTAL";
 
                     break;
                 }
             }
 
-            //Finds the path based on the wizard's objective using AStar
-            pathToNextItem = Astar.FindPath(startCell, targetCell);
+            //Finds the path based on the wizard's objective
+            pathToNextItem = pathFinder.FindPath(startCell, targetCell);
+
         }
 
         /// <summary>
@@ -232,25 +262,25 @@ namespace Grid
         private void FindClosestKey(Cell startCell, Cell firstKey)
         {
             //Announcing the wizards task
-            currentTaskText = "FIND KEY";
+            currentTaskText = "FIND KEYS: " + (2 - keyCount);
 
             //a list containing the two key paths
             List<List<Cell>> keyPaths = new List<List<Cell>>();
 
             //Adds the first path
-            keyPaths.Add(Astar.FindPath(startCell, firstKey));
+            keyPaths.Add(pathFinder.FindPath(startCell, firstKey));
 
             //Then finds and adds the second
             foreach (Cell cell in GridManager.grid)
             {
                 if (cell.MyType == CellType.KEY && cell != firstKey)
                 {
-                    keyPaths.Add(Astar.FindPath(startCell, cell));
+                    keyPaths.Add(pathFinder.FindPath(startCell, cell));
                 }
             }
 
             //Find the path with the least amount of move counts
-            pathToNextItem = GetLeastMoves(keyPaths[0], keyPaths[1]);
+            pathToNextItem = GetShortestRouteBetweenTwoPaths(keyPaths[0], keyPaths[1]);
 
 
 
@@ -262,8 +292,9 @@ namespace Grid
         /// <param name="firstPath"></param>
         /// <param name="secondPath"></param>
         /// <returns></returns>
-        public static List<Cell> GetLeastMoves(List<Cell> firstPath, List<Cell> secondPath)
+        public static List<Cell> GetShortestRouteBetweenTwoPaths(List<Cell> firstPath, List<Cell> secondPath)
         {
+            //if the first is shorter, return that one, else return the second one
             return firstPath.Count < secondPath.Count ? firstPath : secondPath;
         }
 
@@ -288,8 +319,10 @@ namespace Grid
             }
             else
             {
-                if (GridManager.formRef.shouldStart)
+                //If the game is still going (there are tasks to do)
+                if (GridManager.formRef.levelIsPlaying)
                 {
+                    //Find the next item
                     FindClosestItemOfInterest();
                 }
 
@@ -298,3 +331,6 @@ namespace Grid
     }
 }
 
+
+        
+

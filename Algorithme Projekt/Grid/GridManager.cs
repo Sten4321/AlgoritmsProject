@@ -109,13 +109,14 @@ namespace Grid
 
         public void ResetLevel()
         {
+            //Notes the time it took to beat the level
             formRef.finalTime = formRef.stopWatch.ElapsedMilliseconds;
 
             //For showing final time
             formRef.stopWatch.Stop();
 
             //allows player to press start button
-            formRef.shouldStart = false;
+            formRef.levelIsPlaying = false;
 
             //Rewrites the highscore
             formRef.ReWriteHighScore();
@@ -131,7 +132,14 @@ namespace Grid
         /// <param name="mousePos"></param>
         public void ClickCell(Point mousePos)
         {
+            foreach (Cell cell in grid) //Finds the cell that we just clicked
+            {
+                if (cell.BoundingRectangle.IntersectsWith(new Rectangle(mousePos, new Size(1, 1))))
+                {
+                    cell.Click();
+                }
 
+            }
         }
 
 
