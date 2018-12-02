@@ -148,7 +148,8 @@ namespace Grid
         {
             foreach (Cell cell in GridManager.grid)
             {
-                if (cell.MyType == CellType.WALL && cell.position == new Point(x, y))
+                if ((cell.MyType == CellType.WALL || cell.MyType ==CellType.WATER || cell.MyType == CellType.TREE) 
+                    && cell.position == new Point(x, y))
                 {
                     return true;
                 }
