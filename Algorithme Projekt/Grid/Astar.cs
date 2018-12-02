@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -150,8 +150,12 @@ namespace Grid
         {
             foreach (Cell cell in GridManager.grid)
             {
+
                 if ((cell.MyType == CellType.WALL || cell.MyType == CellType.WATER || cell.MyType == CellType.TREE)
                     && cell.position == new Point(x, y))
+
+                if ((cell.MyType == CellType.WALL || cell.MyType == CellType.TREE || cell.MyType == CellType.WATER || cell.MyType == CellType.MONSTERCELL) && cell.position == new Point(x, y))
+
                 {
                     return true;
                 }
