@@ -93,12 +93,16 @@ namespace Grid
             {
                 case CellType.KEY:
                     //Picks up key and resets its sprite
+                    Console.Beep(500, 50);
+
                     CollectKey(cell);
                     break;
                 case CellType.TOWER:
                     //Wizard have the potion it needs for crystal
                     if (keyCount == 2)
                     {
+                        Console.Beep(300, 50);
+
                         hasPotion = true;
                     }
                     break;
@@ -106,6 +110,8 @@ namespace Grid
                     //if wizard have the potion, the wizard will  delivere the potion
                     if (hasPotion)
                     {
+                        Console.Beep(300, 50);
+
                         canEnterPortal = true;
                     }
                     break;
@@ -113,15 +119,20 @@ namespace Grid
                     // if it has delivered the potion, it may enter the portal, and reset the level
                     if (canEnterPortal)
                     {
+                        Console.Beep(300, 300);
+
                         GridManager.formRef.visualManager.ResetLevel();
                         instance = null;
                     }
                     break;
 
                 case CellType.MONSTERCELL:
+                    Console.Beep(100, 200);
+
                     //Makes the monstercell Unwalkable and changes its sprite
                     ActivateMonsterCell(cell);
                     break;
+
                 default:
                     break;
             }
