@@ -20,7 +20,7 @@ namespace Grid
         /// <param name="goalCell"></param>
         /// <param name="goalCellType"></param>
         /// <returns></returns>
-        public  List<Cell> FindPath(Cell statingCell, Cell goalCell)
+        public List<Cell> FindPath(Cell statingCell, Cell goalCell)
         {
 
             Clear();
@@ -71,8 +71,10 @@ namespace Grid
                     //if this neighbour is the best route to take
                     if (newMoveCost < neighbour.GValue || !openList.Contains(neighbour))
                     {
+                        //
                         neighbour.GValue = newMoveCost;
 
+                        //How far this cell is from the distance
                         neighbour.HValue = GetDistance(neighbour, goalCell);
 
                         //saves reference for returning path
@@ -148,7 +150,7 @@ namespace Grid
         {
             foreach (Cell cell in GridManager.grid)
             {
-                if ((cell.MyType == CellType.WALL || cell.MyType ==CellType.WATER || cell.MyType == CellType.TREE) 
+                if ((cell.MyType == CellType.WALL || cell.MyType == CellType.WATER || cell.MyType == CellType.TREE)
                     && cell.position == new Point(x, y))
                 {
                     return true;
@@ -210,8 +212,10 @@ namespace Grid
                     {
                         continue;
                     }
-
-
+                    //Checks the coordinates, relative to the current Cell's position
+                    //***
+                    //*^*
+                    //***
                     int XCheck = cell.position.X + x;
                     int YCheck = cell.position.Y + y;
 
@@ -225,9 +229,9 @@ namespace Grid
                                 //find the cell in the grid list
                                 if (_cell.position.X == XCheck && _cell.position.Y == YCheck)
                                 {
-                                    if (!AdjecentDioganalWall(_cell, cell))
+                                    if (!AdjecentDioganalWall(_cell, cell)) //Does so it can't walk through corners
                                     {
-                                        neighbours.Add(_cell);
+                                        neighbours.Add(_cell);//cell is now a known neighbour of the currentCell
                                         break;
                                     }
                                 }
@@ -244,11 +248,13 @@ namespace Grid
             int xDistance = Math.Abs(a.position.X - b.position.X);
             int yDistance = Math.Abs(a.position.Y - b.position.Y);
 
-            if (xDistance > yDistance)
-            {
-                return 14 * yDistance + 10 * (xDistance - yDistance);
-            }
-            return 14 * xDistance + 10 * (yDistance - xDistance);
+
+
+            return xDistance > yDistance
+                ? 14 * yDistance + 10 * (xDistance - yDistance)
+                : 14 * xDistance + 10 * (yDistance - xDistance);
+
+          
 
         }
 
@@ -257,11 +263,12 @@ namespace Grid
         /// </summary>
         private static void Clear()
         {
+            path = new List<Cell>();//path to target
+            openList = new List<Cell>();// list of nodes to examine  
+            ClosedList = new List<Cell>(); //nodes that have been examined
+
             foreach (Cell cell in GridManager.grid)
             {
-                path = new List<Cell>();
-                openList = new List<Cell>();// list of nodes to examine  
-                ClosedList = new List<Cell>(); //nodes that have been examined
                 cell.Parrent = null;
                 cell.GValue = default(int);
                 cell.HValue = default(int);
