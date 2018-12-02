@@ -109,6 +109,7 @@ namespace Grid
 
         public void ResetLevel()
         {
+            //Notes the time it took to beat the level
             formRef.finalTime = formRef.stopWatch.ElapsedMilliseconds;
 
             //For showing final time

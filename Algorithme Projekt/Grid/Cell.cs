@@ -69,7 +69,9 @@ namespace Grid
         }
 
 
-
+        /// <summary>
+        /// Assigns the correct sprite of the cell, based on its type (enum)
+        /// </summary>
         public void AssignSprite()
         {
             switch (MyType)

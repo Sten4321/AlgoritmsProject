@@ -63,11 +63,12 @@ namespace Grid
             timeThatHasPassedInThisLevel = +stopWatch.ElapsedMilliseconds;
 
             //remove:
-            if (shouldStart == false)
-            {
-                StartGame();
-                shouldStart = true;
-            }
+            //if (shouldStart == false)
+            //{
+            //    Wizard.Instance.pathFinder = new Astar();
+            //    StartGame();
+            //    shouldStart = true;
+            //}
 
         }
 
@@ -85,6 +86,19 @@ namespace Grid
             {
                 if (shouldStart == false)
                 {
+                    //Sets wizards strategy to astar, and executes its algorithmes                    
+                    Wizard.Instance.pathFinder = new Astar();
+                    StartGame();
+                    shouldStart = true;
+                }
+
+            }
+            if (e.KeyCode == Keys.Back)
+            {
+                if (shouldStart == false)                {
+                    //Sets wizards strategy to BFS, and executes its algorithmes                    
+
+                    Wizard.Instance.pathFinder = new BFS();
                     StartGame();
                     shouldStart = true;
                 }
@@ -92,11 +106,17 @@ namespace Grid
             }
         }
 
+        /// <summary>
+        /// Starts the level, and tells wizard to go bananas
+        /// </summary>
         private void StartGame()
         {
+            //reset time tracking
             timeStamp = 0;
             timeThatHasPassedInThisLevel = 0;
             stopWatch.Restart();
+
+            //Go get them, wizard!
             Wizard.Instance.FindClosestItemOfInterest();
 
         }
@@ -106,28 +126,39 @@ namespace Grid
             Setup();
         }
 
-
+        /// <summary>
+        /// Sets up the game
+        /// </summary>
         private void Setup()
         {
+            //if there is not a highscore file
             if (!File.Exists("HighScore.txt"))
             {
-
+                //make one
                 File.Create("HighScore.txt").Close();
 
+                //write high number, so any new score will always be lower and 
                 File.WriteAllText("HighScore.txt", int.MaxValue.ToString());
 
             }
+            //Remember the highscore
             float.TryParse(File.ReadAllText("HighScore.txt"), out highScore);
         }
 
-        internal void ReWriteHighScore()
+        /// <summary>
+        /// Checks if the highscore should be overwritten, and does so if needed
+        /// </summary>
+        public void ReWriteHighScore()
         {
             float currentHighscore;
 
+            //Finds the current highscore
             float.TryParse(File.ReadAllText("HighScore.txt"), out currentHighscore);
 
+            //If this time was faster
             if (finalTime < currentHighscore)
             {
+                //it's the new highscore
                 File.WriteAllText("HighScore.txt", finalTime.ToString());
 
                 highScore = finalTime;

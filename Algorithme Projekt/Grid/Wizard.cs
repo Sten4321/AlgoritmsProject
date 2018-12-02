@@ -9,7 +9,8 @@ namespace Grid
 {
     class Wizard
     {
-
+        //Strategy pattern - the algorithm it uses to find path
+        public IFindPath pathFinder = new Astar();
 
         public Point position { get; set; }
 
@@ -19,8 +20,10 @@ namespace Grid
 
         private static Wizard instance;
 
+        //The path, cell by cell, that wizard should walk. He will do so automatically, is it not empty.
         private List<Cell> pathToNextItem = new List<Cell>();
 
+        //For writing on screen
         public string currentTaskText = string.Empty;
 
         public static Wizard Instance
@@ -43,12 +46,12 @@ namespace Grid
             }
         }
 
+
+        //for tracking objectives
         public int keyCount = 0;
-
         public bool hasPotion = false;
-
         public bool canEnterPortal = false;
-
+        //
 
 
         /// <summary>
@@ -61,13 +64,17 @@ namespace Grid
             position = _coord;
             this.spriteSize = spriteSize;
         }
-
+        /// <summary>
+        /// Draws the wizard and his current objective
+        /// </summary>
+        /// <param name="dc"></param>
         public void Draw(Graphics dc)
         {
             if (sprite != null)
             {
                 dc.DrawImage(sprite, BoundingRectangle);
             }
+            //If wizard has a task, it writes the task on the screen
             if (currentTaskText != string.Empty)
             {
                 dc.DrawString(currentTaskText, new Font("Arial", 30, FontStyle.Regular),
@@ -188,7 +195,7 @@ namespace Grid
                         //FIND KEY
                         targetCell = cell;
                         type = CellType.KEY;
-                        currentTaskText = "FIND KEY";
+                        currentTaskText = "FIND KEYS: " + (2 - keyCount);
                         break;
                     }
                 }
@@ -221,7 +228,7 @@ namespace Grid
             }
 
             //Finds the path based on the wizard's objective
-            pathToNextItem = Astar.FindPath(startCell, targetCell);
+            pathToNextItem = pathFinder.FindPath(startCell, targetCell);
 
         }
 
@@ -233,27 +240,27 @@ namespace Grid
         private void FindClosestKey(Cell startCell, Cell firstKey)
         {
             //Announcing the wizards task
-            currentTaskText = "FIND KEY";
+            currentTaskText = "FIND KEYS: " + (2 - keyCount);
 
             //a list containing the two key paths
             List<List<Cell>> keyPaths = new List<List<Cell>>();
 
             //Adds the first path
-            keyPaths.Add(Astar.FindPath(startCell, firstKey));
+            keyPaths.Add(pathFinder.FindPath(startCell, firstKey));
 
             //Then finds and adds the second
             foreach (Cell cell in GridManager.grid)
             {
                 if (cell.MyType == CellType.KEY && cell != firstKey)
                 {
-                    keyPaths.Add(Astar.FindPath(startCell, cell));
+                    keyPaths.Add(pathFinder.FindPath(startCell, cell));
                 }
             }
 
             //Find the path with the least amount of move counts
             pathToNextItem = GetLeastMoves(keyPaths[0], keyPaths[1]);
 
-          
+
 
         }
 
