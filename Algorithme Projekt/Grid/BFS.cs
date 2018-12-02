@@ -22,6 +22,7 @@ namespace Grid
         /// <returns></returns>
         public List<Cell> FindPath(Cell statingCell, Cell destination)
         {
+            Clear();
             destinationCell = destination;
             start = statingCell;
             discovered = new List<Cell>();
@@ -196,6 +197,22 @@ namespace Grid
                 return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// Clears Values
+        /// </summary>
+        private static void Clear()
+        {
+            path = new List<Cell>();//path to target
+            discovered = new List<Cell>();// list of nodes to examine
+            destinationCell = null;
+            start = null;
+
+            foreach (Cell cell in GridManager.grid)
+            {
+                cell.Parrent = null;
+            }
         }
     }
 }
