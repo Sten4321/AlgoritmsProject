@@ -138,7 +138,7 @@ namespace Grid
             //picks up a key
             keyCount++;
 
-            
+
             foreach (Cell tmp in GridManager.grid)
             {
                 //if this cell is the specefic key cell 
@@ -177,11 +177,20 @@ namespace Grid
             {
                 if (cell.MyType == CellType.KEY && keyCount < 2)
                 {
-                    //FIND KEY
-                    targetCell = cell;
-                    type = CellType.KEY;
-                    currentTaskText = "FIND KEY";
-                    break;
+                    if (keyCount == 0)
+                    {
+                        FindClosestKey(startCell, cell);
+
+                        return;
+                    }
+                    else
+                    {
+                        //FIND KEY
+                        targetCell = cell;
+                        type = CellType.KEY;
+                        currentTaskText = "FIND KEY";
+                        break;
+                    }
                 }
                 if (cell.MyType == CellType.TOWER && keyCount == 2 && hasPotion == false)
                 {
@@ -213,6 +222,49 @@ namespace Grid
 
             pathToNextItem = Astar.FindPath(startCell, targetCell, type);
 
+        }
+
+        /// <summary>
+        /// Finds, and walks to the closest key
+        /// </summary>
+        /// <param name="startCell"></param>
+        /// <param name="firstKey"></param>
+        private void FindClosestKey(Cell startCell, Cell firstKey)
+        {
+            //Announcing the wizards task
+            currentTaskText = "FIND KEY";
+
+            //a list containing the two key paths
+            List<List<Cell>> keyPaths = new List<List<Cell>>();
+
+            //Adds the first path
+            keyPaths.Add(Astar.FindPath(startCell, firstKey, CellType.KEY));
+
+            //Then finds and adds the second
+            foreach (Cell cell in GridManager.grid)
+            {
+                if (cell.MyType == CellType.KEY && cell != firstKey)
+                {
+                    keyPaths.Add(Astar.FindPath(startCell, cell, CellType.KEY));
+                }
+            }
+
+            //Find the path with the least amount of move counts
+            pathToNextItem = GetLeastMoves(keyPaths[0], keyPaths[1]);
+
+          
+
+        }
+
+        /// <summary>
+        /// Returns the path with the least amount of moves
+        /// </summary>
+        /// <param name="firstPath"></param>
+        /// <param name="secondPath"></param>
+        /// <returns></returns>
+        public static List<Cell> GetLeastMoves(List<Cell> firstPath, List<Cell> secondPath)
+        {
+            return firstPath.Count < secondPath.Count ? firstPath : secondPath;
         }
 
         public void Update()
