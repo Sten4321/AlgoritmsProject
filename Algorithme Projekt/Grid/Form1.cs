@@ -58,11 +58,10 @@ namespace Grid
                 timeStamp = stopWatch.ElapsedMilliseconds + 0;
             }
 
-            this.Text = "Highscore: "+ highScore/1000+"  current time: "+(timeThatHasPassedInThisLevel / 1000).ToString();
+            this.Text = "Fastest Time: "+ highScore/1000+"  Current Time: "+(timeThatHasPassedInThisLevel / 1000).ToString();
 
             timeThatHasPassedInThisLevel = +stopWatch.ElapsedMilliseconds;
 
-        
         }
 
 
