@@ -33,7 +33,21 @@ namespace Grid
 
         public float finalTime;
 
-        int algorithmRotationIndex = 0;
+        private int algorithmRotationIndex;
+
+        public int AlgorithmRotationIndex
+        {
+            get { return algorithmRotationIndex; }
+            set
+            {
+                algorithmRotationIndex = value;
+
+                if (algorithmRotationIndex > 1)
+                {
+                    algorithmRotationIndex = 0;
+                }
+            }
+        }
 
         private float AStarHighScore;
         private int AStarAttemptsCount;
@@ -62,7 +76,7 @@ namespace Grid
             {
                 Wizard.Instance.Update();
                 //+ cooldown amount in miliseconds
-                timeStamp = stopWatch.ElapsedMilliseconds + 250;
+                timeStamp = stopWatch.ElapsedMilliseconds + 200;
             }
 
             if (Wizard.Instance.pathFinder is Astar)
@@ -76,27 +90,26 @@ namespace Grid
 
             }
 
-            timeThatHasPassedInThisLevel = +stopWatch.ElapsedMilliseconds;
 
             //remove: automatically loops 
             if (levelIsPlaying == false)
             {
 
-                if (algorithmRotationIndex ==0)
+                if (AlgorithmRotationIndex == 0)
                 {
                     Wizard.Instance.pathFinder = new Astar();
-                    algorithmRotationIndex++;
                 }
                 else
                 {
                     Wizard.Instance.pathFinder = new BFS();
-                    algorithmRotationIndex = 0;
+                 
                 }
-               
+
                 StartGame();
                 levelIsPlaying = true;
 
             }
+            timeThatHasPassedInThisLevel = +stopWatch.ElapsedMilliseconds;
 
         }
 
@@ -135,6 +148,8 @@ namespace Grid
             }
         }
 
+      
+
         /// <summary>
         /// Starts the level, and tells wizard to go bananas
         /// </summary>
@@ -150,7 +165,7 @@ namespace Grid
 
             if (Wizard.Instance.pathFinder is Astar)
             {
-            AStarAttemptsCount++;
+                AStarAttemptsCount++;
 
             }
             else

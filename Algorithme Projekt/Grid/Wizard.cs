@@ -121,6 +121,10 @@ namespace Grid
                     {
                         Console.Beep(300, 300);
 
+                        //Let's window know it's the next algorithms turn
+                        GridManager.formRef.AlgorithmRotationIndex++;
+
+                        //resets lvl
                         GridManager.formRef.visualManager.ResetLevel();
                         instance = null;
                     }
@@ -332,5 +336,5 @@ namespace Grid
 }
 
 
-        
-
+
+
