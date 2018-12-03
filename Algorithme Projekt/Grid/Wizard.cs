@@ -121,6 +121,10 @@ namespace Grid
                     {
                         Console.Beep(300, 300);
 
+                        //Let's window know it's the next algorithms turn
+                        GridManager.formRef.AlgorithmRotationIndex++;
+
+                        //resets lvl
                         GridManager.formRef.visualManager.ResetLevel();
                         instance = null;
                     }
@@ -194,7 +198,7 @@ namespace Grid
             foreach (Cell cell in GridManager.grid)
             {
                 //find the cell you're currently standing on
-                if (cell.position.X == position.X && cell.position.Y == position.Y)
+                if (cell.position.X == this.position.X && cell.position.Y == this.position.Y)
                 {
                     startCell = cell;
                     break;
@@ -276,9 +280,10 @@ namespace Grid
                 if (cell.MyType == CellType.KEY && cell != firstKey)
                 {
                     keyPaths.Add(pathFinder.FindPath(startCell, cell));
+                    break;
                 }
             }
-
+         
             //Find the path with the least amount of move counts
             pathToNextItem = GetShortestRouteBetweenTwoPaths(keyPaths[0], keyPaths[1]);
 
@@ -332,5 +337,5 @@ namespace Grid
 }
 
 
-        
-
+
+

@@ -33,7 +33,24 @@ namespace Grid
 
         public float finalTime;
 
-        int algorithmRotationIndex = 0;
+        private int algorithmRotationIndex;
+
+        /// <summary>
+        /// Property for determinging which algorithm to play in loop mode.
+        /// </summary>
+        public int AlgorithmRotationIndex
+        {
+            get { return algorithmRotationIndex; }
+            set
+            {
+                algorithmRotationIndex = value;
+
+                if (algorithmRotationIndex > 1)
+                {
+                    algorithmRotationIndex = 0;
+                }
+            }
+        }
 
         private float AStarHighScore;
         private int AStarAttemptsCount;
@@ -62,7 +79,7 @@ namespace Grid
             {
                 Wizard.Instance.Update();
                 //+ cooldown amount in miliseconds
-                timeStamp = stopWatch.ElapsedMilliseconds + 250;
+                timeStamp = stopWatch.ElapsedMilliseconds + 0;
             }
 
             if (Wizard.Instance.pathFinder is Astar)
@@ -76,27 +93,28 @@ namespace Grid
 
             }
 
-            timeThatHasPassedInThisLevel = +stopWatch.ElapsedMilliseconds;
 
-            //remove: automatically loops 
+            //Starts a new game, if it's not currently playing
             if (levelIsPlaying == false)
             {
-
-                if (algorithmRotationIndex ==0)
+                //Switching between A* and BFS
+                if (AlgorithmRotationIndex == 0)
                 {
                     Wizard.Instance.pathFinder = new Astar();
-                    algorithmRotationIndex++;
                 }
                 else
                 {
                     Wizard.Instance.pathFinder = new BFS();
-                    algorithmRotationIndex = 0;
+                 
                 }
-               
+
+                //Plays the game
                 StartGame();
+
                 levelIsPlaying = true;
 
             }
+            timeThatHasPassedInThisLevel = +stopWatch.ElapsedMilliseconds;
 
         }
 
@@ -135,6 +153,8 @@ namespace Grid
             }
         }
 
+      
+
         /// <summary>
         /// Starts the level, and tells wizard to go bananas
         /// </summary>
@@ -150,7 +170,7 @@ namespace Grid
 
             if (Wizard.Instance.pathFinder is Astar)
             {
-            AStarAttemptsCount++;
+                AStarAttemptsCount++;
 
             }
             else

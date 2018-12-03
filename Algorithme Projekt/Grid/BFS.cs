@@ -34,7 +34,6 @@ namespace Grid
             while (s.Count != 0)
             {
                 Cell e = s.Dequeue();
-                Console.WriteLine("Current Cell: " + e.position + ".");
                 if (e == destination)
                 {
                     foundRoute = true;
