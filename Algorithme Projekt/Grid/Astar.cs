@@ -23,9 +23,9 @@ namespace Grid
         public List<Cell> FindPath(Cell statingCell, Cell goalCell)
         {
 
-            Clear();
+            Clear();//clear old lists
 
-            CellType goalCellType = goalCell.MyType;
+            CellType goalCellType = goalCell.MyType; 
 
             openList.Add(statingCell); //starting point
 

@@ -114,12 +114,14 @@ namespace Grid
             formRef.stopWatch.Stop();
 
             //allows player to press start button
-            formRef.levelIsPlaying = false;
 
             //Rewrites the highscore
             formRef.ReWriteHighScore(Wizard.Instance.pathFinder);
             //resets all cell positions and spawns random keys
             CreateGrid();
+
+
+            formRef.levelIsPlaying = false;
         }
 
 
@@ -135,6 +137,8 @@ namespace Grid
                 if (cell.BoundingRectangle.IntersectsWith(new Rectangle(mousePos, new Size(1, 1))))
                 {
                     cell.Click();
+                    break;
+
                 }
 
             }
@@ -156,12 +160,15 @@ namespace Grid
             MakeCrystal();
             MakePortal();
             MakeMonsterCell();
-            //Make two keys on random spots that are "walkable" and not a monster tile
+
+            //If the loop has restarted, or is starting
             if (formRef.AlgorithmRotationIndex == 0)
             {
+                //Reset old keypositions
                 key1Pos = Point.Empty;
                 key2Pos = Point.Empty;
 
+                //Make two keys on random spots that are "walkable" and not a monster tile
                 for (int i = 0; i < 2; i++)
                 {
                     MakeKeys();
@@ -170,11 +177,15 @@ namespace Grid
             }
             else
             {
+                //let BFS try the same key layout
                 RecycleKeys();
             }
 
         }
 
+        /// <summary>
+        /// copies the keys from the previous level to the game
+        /// </summary>
         private void RecycleKeys()
         {
             foreach (Cell cell in grid)
@@ -183,7 +194,7 @@ namespace Grid
                 if (cell.position == key1Pos && (cell.MyType == CellType.EMPTY || cell.MyType == CellType.ROAD))
                 {
                     //if it's not the cell wizard is standing on
-                    if (Wizard.Instance.position.X != cell.position.X && Wizard.Instance.position.Y != cell.position.Y)
+                    if (cell.position != Wizard.Instance.position)
                     {
                         //For remembering its original appearence
                         cell.initialType = cell.MyType;
@@ -202,7 +213,7 @@ namespace Grid
                 if (cell.position == key2Pos && (cell.MyType == CellType.EMPTY || cell.MyType == CellType.ROAD))
                 {
                     //if it's not the cell wizard is standing on
-                    if (Wizard.Instance.position.X != cell.position.X && Wizard.Instance.position.Y != cell.position.Y)
+                    if (cell.position != Wizard.Instance.position)
                     {
                         //For remembering its original appearence
                         cell.initialType = cell.MyType;
@@ -225,6 +236,7 @@ namespace Grid
                 {
                     cell.MyType = CellType.MONSTERCELL;
                     cell.AssignSprite();
+                    break;
                 }
             }
         }
@@ -247,7 +259,7 @@ namespace Grid
                     if (cell.position == keyPos && (cell.MyType == CellType.EMPTY || cell.MyType == CellType.ROAD))
                     {
                         //if it's not the cell wizard is standing on
-                        if (Wizard.Instance.position.X != cell.position.X && Wizard.Instance.position.Y != cell.position.Y)
+                        if (cell.position != Wizard.Instance.position)
                         {
                             //For remembering its original appearence
                             cell.initialType = cell.MyType;
@@ -256,8 +268,10 @@ namespace Grid
                             cell.MyType = CellType.KEY;
                             cell.AssignSprite();
 
+                            //If key1 has not been assigned
                             if (key1Pos.IsEmpty)
                             {
+                                //assign key1 position
                                 key1Pos = keyPos;
                             }
                             else
@@ -279,6 +293,8 @@ namespace Grid
                 {
                     cell.MyType = CellType.PORTAL;
                     cell.AssignSprite();
+                    break;
+
                 }
             }
         }
@@ -291,6 +307,8 @@ namespace Grid
                 {
                     cell.MyType = CellType.TOWER;
                     cell.AssignSprite();
+                    break;
+
                 }
             }
         }
@@ -303,6 +321,8 @@ namespace Grid
                 {
                     cell.MyType = CellType.CRYSTAL;
                     cell.AssignSprite();
+                    break;
+
                 }
             }
         }
@@ -397,6 +417,8 @@ namespace Grid
                             cell.MyType = CellType.TREE;
 
                             cell.AssignSprite();
+                            break;
+
                         }
                     }
                 }
@@ -418,6 +440,8 @@ namespace Grid
                             cell.MyType = CellType.WATER;
 
                             cell.AssignSprite();
+                            break;
+
                         }
                     }
                 }

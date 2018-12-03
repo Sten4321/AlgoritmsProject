@@ -35,6 +35,9 @@ namespace Grid
 
         private int algorithmRotationIndex;
 
+        /// <summary>
+        /// Property for determinging which algorithm to play in loop mode.
+        /// </summary>
         public int AlgorithmRotationIndex
         {
             get { return algorithmRotationIndex; }
@@ -76,7 +79,7 @@ namespace Grid
             {
                 Wizard.Instance.Update();
                 //+ cooldown amount in miliseconds
-                timeStamp = stopWatch.ElapsedMilliseconds + 200;
+                timeStamp = stopWatch.ElapsedMilliseconds + 0;
             }
 
             if (Wizard.Instance.pathFinder is Astar)
@@ -91,10 +94,10 @@ namespace Grid
             }
 
 
-            //remove: automatically loops 
+            //Starts a new game, if it's not currently playing
             if (levelIsPlaying == false)
             {
-
+                //Switching between A* and BFS
                 if (AlgorithmRotationIndex == 0)
                 {
                     Wizard.Instance.pathFinder = new Astar();
@@ -105,7 +108,9 @@ namespace Grid
                  
                 }
 
+                //Plays the game
                 StartGame();
+
                 levelIsPlaying = true;
 
             }

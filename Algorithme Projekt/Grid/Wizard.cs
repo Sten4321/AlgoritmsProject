@@ -280,9 +280,10 @@ namespace Grid
                 if (cell.MyType == CellType.KEY && cell != firstKey)
                 {
                     keyPaths.Add(pathFinder.FindPath(startCell, cell));
+                    break;
                 }
             }
-
+         
             //Find the path with the least amount of move counts
             pathToNextItem = GetShortestRouteBetweenTwoPaths(keyPaths[0], keyPaths[1]);
 

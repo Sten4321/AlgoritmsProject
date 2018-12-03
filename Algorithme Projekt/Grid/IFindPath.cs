@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Grid
 {
-    public interface IFindPath
+    public interface IFindPath//strategy
     {
         List<Cell> FindPath(Cell statingCell, Cell goalCell);
     }
