@@ -44,7 +44,8 @@ namespace Grid
 
 
 
-                if (currentCell.MyType == goalCellType)
+                if (currentCell.MyType == goalCellType &&
+                    currentCell.position == goalCell.position)
                 {
                     //found target
                     goalCell = currentCell;

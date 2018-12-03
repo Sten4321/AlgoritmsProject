@@ -198,7 +198,7 @@ namespace Grid
             foreach (Cell cell in GridManager.grid)
             {
                 //find the cell you're currently standing on
-                if (cell.position.X == position.X && cell.position.Y == position.Y)
+                if (cell.position.X == this.position.X && cell.position.Y == this.position.Y)
                 {
                     startCell = cell;
                     break;
