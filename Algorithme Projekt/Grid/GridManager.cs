@@ -153,6 +153,7 @@ namespace Grid
         {
             //Hard coded mess that not even the all-knowing Cthulhu would comprehend
             //You have been warned
+            Wizard.Instance.ToString();
             MakeRoads();
             MakeTrees();
             MakeWater();

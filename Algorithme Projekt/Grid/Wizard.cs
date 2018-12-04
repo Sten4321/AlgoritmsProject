@@ -124,9 +124,9 @@ namespace Grid
                         //Let's window know it's the next algorithms turn
                         GridManager.formRef.AlgorithmRotationIndex++;
 
+                        instance = null;
                         //resets lvl
                         GridManager.formRef.visualManager.ResetLevel();
-                        instance = null;
                     }
                     break;
 
@@ -283,7 +283,7 @@ namespace Grid
                     break;
                 }
             }
-         
+
             //Find the path with the least amount of move counts
             pathToNextItem = GetShortestRouteBetweenTwoPaths(keyPaths[0], keyPaths[1]);
 
