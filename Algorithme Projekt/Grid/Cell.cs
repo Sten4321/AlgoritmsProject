@@ -216,9 +216,9 @@ namespace Grid
 
 
             //Write's the cells grid position
-            dc.DrawString(string.Format("{0}", position), new Font("Arial", 6, FontStyle.Regular), new SolidBrush(Color.Black), position.X * cellSize, (position.Y * cellSize) + 1);
-
 #if DEBUG
+              dc.DrawString(string.Format("{0}", position), new Font("Arial", 6, FontStyle.Regular), new SolidBrush(Color.Black), position.X * cellSize, (position.Y * cellSize) + 1);
+
             if (FValue != 0)
             {
                 try
@@ -236,7 +236,8 @@ namespace Grid
         /// Clicks the cell
         /// </summary>
         /// <param name="clickType">The click type</param>
-        public void Click()        {
+        public void Click()
+        {
 
             MyType = MONSTERCELL;
             AssignSprite();
